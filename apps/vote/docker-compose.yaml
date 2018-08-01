@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  azure-vote-back:
+    build: ./azure-vote-mysql
+    image: azure-vote-back
+    container_name: azure-vote-back
+    environment:
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: Password12
+      MYSQL_DATABASE: azurevote
+      MYSQL_ROOT_PASSWORD: Password12
+    ports:
+        - "3306:3306"
+
+  azure-vote-front:
+    build: ./azure-vote
+    depends_on:
+        - azure-vote-back
+    image: azure-vote-front
+    container_name: azure-vote-front
+    environment:
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: Password12
+      MYSQL_DATABASE: azurevote
+      MYSQL_HOST: azure-vote-back
+    ports:
+        - "8080:80"
