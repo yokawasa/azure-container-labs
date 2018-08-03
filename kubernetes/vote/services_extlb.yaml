@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-vote-back
+  namespace: vote
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: azure-vote-back
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-vote-front
+  namespace: vote
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: azure-vote-front
