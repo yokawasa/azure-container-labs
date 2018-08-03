@@ -7,18 +7,24 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 - Setup Lab environment
 - Create Azure Kubernetes Services(AKS) Cluster
 - Quickstart
+- Azure Container Resgistry
 - Deploy application to the cluster (+ Ingress Controller)
-- Monitoring and logging Part1
-- Monitoring and logging Part2
 - Scale out Pods and Nodes
-- Helm Package
-- Provision, bind and consume PaaS using OSBA
-- CI/CD using Istio
+- Monitoring and logging
+- CI/CD with VSTS/Jenkins
 
 ### Advanced Topics
+- Helm Package
+- Service Broker
+- Service Mesh using Istio/Linkerd
+- Virtual-Kubelet
+- Brigade
+- Autoscale (HPA + CA)
+
+### Helper Contents
 - Manage Kubernetes App with kubectl
 - Manage AKS Cluster with Azure CLI
-- Service Mesh
+- Uselful Tools
 
 ---
 ## App Services for Container Labs
