@@ -8,18 +8,21 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 - Create Azure Kubernetes Services(AKS) Cluster
 - Quickstart
 - Azure Container Resgistry
-- Deploy application to the cluster (+ Ingress Controller)
+- Deploy application to the cluster
+- Ingress Controller
 - Scale out Pods and Nodes
+- Deploy Replicated MySQL Topology with Stateful Sets
 - Monitoring and logging
+- Helm Package
 - CI/CD with VSTS/Jenkins
 
 ### Advanced Topics
-- Helm Package
 - Service Broker
 - Service Mesh using Istio/Linkerd
 - Virtual-Kubelet
 - Brigade
 - Autoscale (HPA + CA)
+- Operator (MySQL)
 
 ### Helper Contents
 - Manage Kubernetes App with kubectl
