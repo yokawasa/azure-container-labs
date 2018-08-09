@@ -20,6 +20,7 @@ services:
     image: azure-vote-front
     container_name: azure-vote-front
     environment:
+      FLASK_CONFIG_FILE_PATH: /app/config_file.cfg
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: Password12
       MYSQL_DATABASE: azurevote

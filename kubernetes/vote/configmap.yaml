@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vote-config
+  namespace: vote
+data:
+  config_file.cfg: |
+    # UI Configurations
+    TITLE = 'Azure Voting App'
+    VOTE1VALUE = 'Beer'
+    VOTE2VALUE = 'Wine'
+    SHOWHOST = 'false'

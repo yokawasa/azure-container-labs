@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: azure-vote-back
-        image: yoichikawasaki/azure-vote-back:v1
+        image: yoichikawasaki/azure-vote-back:1.0.0
         args: ["--ignore-db-dir=lost+found"]
         ports:
         - containerPort: 3306
@@ -60,7 +60,7 @@ spec:
     spec:
       containers:
       - name: azure-vote-front
-        image: yoichikawasaki/azure-vote-front:v1
+        image: yoichikawasaki/azure-vote-front:1.0.0
         resources:
           requests:
             cpu: 250m
@@ -95,3 +95,12 @@ spec:
             secretKeyRef:
               name: azure-vote
               key: MYSQL_HOST
+        - name: FLASK_CONFIG_FILE_PATH
+          value: /etc/config/config_file.cfg
+        volumeMounts:
+        - name: config-map
+          mountPath: /etc/config
+      volumes:
+      - name: config-map
+        configMap:
+          name: vote-config

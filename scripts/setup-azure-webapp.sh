@@ -15,6 +15,7 @@ MYSQL_USER="<mysqluser>@<azuremysqlaccount>"
 MYSQL_PASSWORD="<password>"
 MYSQL_DATABASE="azurevote"  # fixed
 MYSQL_HOST="<azuremysqlaccount>.mysql.database.azure.com"
+FLASK_CONFIG_FILE_PATH="/app/config_file.cfg" # default
 
 ## Create (if needed)
 # az group create --name $RESOURCE_GROUP_LINUX_APP --location $ResourceLocation
@@ -41,4 +42,5 @@ az webapp config appsettings set \
     MYSQL_USER=$MYSQL_USER \
     MYSQL_PASSWORD=$MYSQL_PASSWORD \
     MYSQL_DATABASE=$MYSQL_DATABASE \
-    MYSQL_HOST=$MYSQL_HOST
+    MYSQL_HOST=$MYSQL_HOST \
+    FLASK_CONFIG_FILE_PATH=$FLASK_CONFIG_FILE_PATH
