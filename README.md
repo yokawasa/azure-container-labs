@@ -4,25 +4,26 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 ---
 ## Kubernetes (AKS) Labs
 ### Lab Contents
-- Setup Lab environment
-- Create Azure Kubernetes Services(AKS) Cluster
-- Quickstart
-- Azure Container Resgistry
-- Deploy application to the cluster
-- Ingress Controller
-- Scale out Pods and Nodes
-- Deploy Replicated MySQL Topology with Stateful Sets
-- Monitoring and logging
-- Helm Package
-- CI/CD with VSTS/Jenkins
+100. Setup Lab environment
+101. Create Azure Kubernetes Services(AKS) Cluster
+102. Quickstart
+103. Azure Container Resgistry
+104. Deploy application to the cluster
+105. Ingress Controller
+106. Scale out Pods and Nodes
+107. Deploy Replicated MySQL Topology with Stateful Sets
+108. RBAC Authorization
+109. Monitoring and logging
+110. Helm Package
+111. CI/CD Automation
 
 ### Advanced Topics
-- Service Broker
-- Service Mesh using Istio/Linkerd
-- Virtual-Kubelet
-- Brigade
-- Autoscale (HPA + CA)
-- Operator (MySQL)
+200. Service Broker
+201. Service Mesh using Istio/Linkerd
+202. Virtual-Kubelet
+203. Brigade
+204. Autoscale (HPA + CA)
+205. Operator (MySQL)
 
 ### Helper Contents
 - Manage Kubernetes App with kubectl
@@ -32,6 +33,7 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 ---
 ## App Services for Container Labs
 ### Lab Contents
-- Setup Azure Database for MySQL
-- Build and Push Docker image to Container Registery
-- Setup Web App and deploy the application to Web App
+100.   Setup Azure Database for MySQL
+101.   Build and Push Docker image to Container Registery
+102.   Setup Web App and deploy the application to Web App
+
