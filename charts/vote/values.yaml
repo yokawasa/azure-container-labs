@@ -1,0 +1,65 @@
+# Default values for azure-voting-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+  
+mysql:
+  user: dbuser
+  password: Password12
+  database: azurevote
+  rootPassword: Password12
+
+azureVoteFront:
+  service:
+    name: front
+    # service type: LoadBalancer or ClusterIP
+    type: LoadBalancer
+    externalPort: 80
+  deployment:
+    replicas: 2
+    name: front
+    image: yoichikawasaki/azure-vote-front
+    imageTag: 1.0.0
+    imagePullPolicy: Always
+    internalPort: 80
+    resources:
+      limits:
+        cpu: 500m
+    #    memory: 128Mi
+      requests:
+        cpu: 250m
+    #    memory: 128Mi
+
+azureVoteBack:
+  service:
+    name: back
+    type: ClusterIP
+    externalPort: 3306
+  deployment:
+    replicas: 1
+    name: back
+    image: yoichikawasaki/azure-vote-back
+    imageTag: 1.0.0
+    imagePullPolicy: IfNotPresent
+    internalPort: 3306
+    resources: {}
+    #  limits:
+    #    cpu: 100m
+    #    memory: 128Mi
+    #  requests:
+    #    cpu: 100m
+    #    memory: 128Mi
+
+persistence:
+  enabled: true
+  ## If defined, volume.beta.kubernetes.io/storage-class: <StorageClass>
+  ## Default: volume.alpha.kubernetes.io/storage-class: default
+  ##
+  StorageClass: azure-disk-standard
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+ingress:
+  # Ingress enabled: true or false
+  # If enabled, you need to fill host info
+  enabled: false
+  host: vote.<CLUSTER_SPECIFIC_DNS_ZONE>

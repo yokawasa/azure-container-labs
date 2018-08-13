@@ -1,0 +1,59 @@
+{{- $serviceName := include "name" . -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ $serviceName }}-{{ .Values.azureVoteBack.deployment.name }}
+  labels:
+{{ include "labels.standard" . | indent 4 }}
+    component: {{ $serviceName }}-{{ .Values.azureVoteBack.deployment.name }}
+spec:
+  replicas: {{ .Values.azureVoteBack.deployment.replicas }}
+  template:
+    metadata:
+      labels:
+{{ include "labels.standard" . | indent 8 }}
+        component: {{ $serviceName }}-{{ .Values.azureVoteBack.deployment.name }}
+    spec:
+      containers:
+      - name: {{ $serviceName }}-{{ .Values.azureVoteBack.deployment.name }}
+        image: "{{ .Values.azureVoteBack.deployment.image }}:{{ .Values.azureVoteBack.deployment.imageTag }}"
+        imagePullPolicy: {{ .Values.azureVoteBack.deployment.imagePullPolicy }}
+        ports:
+        - containerPort: {{ .Values.azureVoteBack.deployment.internalPort }}
+          name: mysql
+        args:
+          - --ignore-db-dir=lost+found
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ $serviceName }}-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ $serviceName }}-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ $serviceName }}-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: {{ $serviceName }}-secret
+              key: MYSQL_DATABASE
+        resources:
+{{ toYaml .Values.azureVoteBack.deployment.resources | indent 10 }}
+      volumes:
+      - name: mysql-persistent-storage
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ $serviceName }}-pv-claim
+      {{- else }}
+        emptyDir: {}
+      {{- end }}

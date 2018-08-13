@@ -1,0 +1,14 @@
+{{- $serviceName := include "name" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $serviceName }}-config
+  labels:
+{{ include "labels.standard" . | indent 4 }}
+data:
+  config_file.cfg: |
+    # UI Configurations
+    TITLE = 'Azure Voting App'
+    VOTE1VALUE = 'Beer'
+    VOTE2VALUE = 'Wine'
+    SHOWHOST = 'false'

@@ -1,0 +1,18 @@
+{{- $serviceName := include "name" . -}}
+1. Get the Azure Voting App URL to visit by running these commands in the same shell:
+{{- if contains "NodePort" .Values.azureVoteFront.service.type }}
+  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ $serviceName }}-{{ .Values.azureVoteFront.service.name }})
+  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+  echo http://$NODE_IP:$NODE_PORT/login
+
+{{- else if contains "LoadBalancer" .Values.azureVoteFront.service.type }}
+  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
+        You can watch the status of by running 'kubectl get svc --namespace {{ .Release.Namespace }} -w {{ $serviceName }}-{{ .Values.azureVoteFront.service.name }}'
+  export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ $serviceName }}-{{ .Values.azureVoteFront.service.name }} --template "{{ "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}" }}")
+  echo http://$SERVICE_IP:{{ .Values.azureVoteFront.service.externalPort }}
+
+{{- else if contains "ClusterIP"  .Values.azureVoteFront.service.type }}
+  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "component={{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}" -o jsonpath="{.items[0].metadata.name}")
+  echo http://127.0.0.1:{{ .Values.azureVoteFront.deployment.internalPort }}
+  kubectl port-forward $POD_NAME {{ .Values.azureVoteFront.deployment.internalPort }}:{{ .Values.azureVoteFront.deployment.internalPort }}
+{{- end }}

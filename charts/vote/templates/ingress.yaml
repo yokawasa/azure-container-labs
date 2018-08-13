@@ -1,0 +1,20 @@
+{{- if and .Values.ingress.enabled -}}
+{{- $serviceName := include "name" . -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $serviceName }}
+  labels:
+{{ include "labels.standard" . | indent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ $serviceName }}-{{ .Values.azureVoteFront.service.name }}
+          servicePort: {{ .Values.azureVoteFront.service.externalPort }}
+        path: /
+{{- end }}

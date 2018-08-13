@@ -1,0 +1,15 @@
+{{- $serviceName := include "name" . -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $serviceName }}-{{ .Values.azureVoteFront.service.name }}
+  labels:
+{{ include "labels.standard" . | indent 4 }}
+spec:
+  type: {{ .Values.azureVoteFront.service.type }}
+  ports:
+    - port: {{ .Values.azureVoteFront.service.externalPort }}
+  selector:
+    app: {{ $serviceName }}
+    component: {{ $serviceName }}-{{ .Values.azureVoteFront.service.name }}
+    release: {{ .Release.Name }}

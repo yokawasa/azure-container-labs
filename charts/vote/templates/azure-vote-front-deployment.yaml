@@ -1,0 +1,54 @@
+{{- $serviceName := include "name" . -}}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
+  labels:
+{{ include "labels.standard" . | indent 4 }}
+    component: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
+spec:
+  replicas: {{ .Values.azureVoteFront.deployment.replicas }}
+  template:
+    metadata:
+      labels:
+{{ include "labels.standard" . | indent 8 }}
+        component: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
+    spec:
+      containers:
+      - name: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
+        image: "{{ .Values.azureVoteFront.deployment.image }}:{{ .Values.azureVoteFront.deployment.imageTag }}"
+        imagePullPolicy: {{ .Values.azureVoteFront.deployment.imagePullPolicy }}
+        ports:
+        - containerPort: {{ .Values.azureVoteFront.deployment.internalPort }}
+        env:
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ $serviceName }}-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ $serviceName }}-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: {{ $serviceName }}-secret
+              key: MYSQL_DATABASE
+        - name: MYSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: {{ $serviceName }}-secret
+              key: MYSQL_HOST
+        - name: FLASK_CONFIG_FILE_PATH
+          value: /etc/config/config_file.cfg
+        volumeMounts:
+        - name: config-map
+          mountPath: /etc/config
+        resources:
+{{ toYaml .Values.azureVoteFront.deployment.resources | indent 10 }}
+      volumes:
+      - name: config-map
+        configMap:
+          name: {{ $serviceName }}-config
