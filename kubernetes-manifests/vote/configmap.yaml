@@ -1,8 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: vote-config
-  namespace: vote
+  name: azure-voting-app-config
+  labels:
+    app: azure-voting-app
 data:
   config_file.cfg: |
     # UI Configurations

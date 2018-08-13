@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: my-mysql-ha
+  namespace: 
+provisioner: kubernetes.io/azure-disk
+parameters:
+  skuName: Standard_LRS
+  location: japaneast

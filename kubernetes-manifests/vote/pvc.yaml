@@ -1,0 +1,26 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azure-disk-standard
+  labels:
+    app: azure-voting-app
+provisioner: kubernetes.io/azure-disk
+parameters:
+  kind: Managed
+  storageaccounttype: Standard_LRS
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: azure-voting-app-pv-claim
+  labels:
+    app: azure-voting-app
+spec:
+  accessModes:
+  - ReadWriteOnce
+  # To create a disk that uses standard storage, 
+  # alternatively you can use storageClassName: default
+  storageClassName: azure-disk-standard
+  resources:
+    requests:
+      storage: 1Gi

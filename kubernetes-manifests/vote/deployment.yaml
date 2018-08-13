@@ -1,17 +1,20 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: azure-vote-back
-  namespace: vote
+  name: azure-voting-app-back
+  labels:
+    app: azure-voting-app
+    component: azure-voting-app-back
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: azure-vote-back
+        app: azure-voting-app
+        component: azure-voting-app-back
     spec:
       containers:
-      - name: azure-vote-back
+      - name: azure-voting-app-back
         image: yoichikawasaki/azure-vote-back:1.0.0
         args: ["--ignore-db-dir=lost+found"]
         ports:
@@ -24,42 +27,45 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: azure-vote
+              name: azure-voting-app-secret
               key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              name: azure-vote
+              name: azure-voting-app-secret
               key: MYSQL_USER
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: azure-vote
+              name: azure-voting-app-secret
               key: MYSQL_PASSWORD
         - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:
-              name: azure-vote
+              name: azure-voting-app-secret
               key: MYSQL_DATABASE
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: azure-voting-app-pv-claim
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: azure-vote-front
-  namespace: vote
+  name: azure-voting-app-front
+  labels:
+    app: azure-voting-app
+    component: azure-voting-app-front
 spec:
   replicas: 2
   template:
     metadata:
       labels:
-        app: azure-vote-front
+        app: azure-voting-app
+        component: azure-voting-app-front
     spec:
       containers:
-      - name: azure-vote-front
+      - name: azure-voting-app-front
         image: yoichikawasaki/azure-vote-front:1.0.0
         resources:
           requests:
@@ -78,22 +84,22 @@ spec:
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              name: azure-vote
+              name: azure-voting-app-secret
               key: MYSQL_USER
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: azure-vote
+              name: azure-voting-app-secret
               key: MYSQL_PASSWORD
         - name: MYSQL_DATABASE
           valueFrom:
             secretKeyRef:
-              name: azure-vote
+              name: azure-voting-app-secret
               key: MYSQL_DATABASE
         - name: MYSQL_HOST
           valueFrom:
             secretKeyRef:
-              name: azure-vote
+              name: azure-voting-app-secret
               key: MYSQL_HOST
         - name: FLASK_CONFIG_FILE_PATH
           value: /etc/config/config_file.cfg
@@ -103,4 +109,4 @@ spec:
       volumes:
       - name: config-map
         configMap:
-          name: vote-config
+          name: azure-voting-app-config
