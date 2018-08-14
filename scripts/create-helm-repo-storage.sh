@@ -22,5 +22,6 @@ ACCESS_KEY=$(az storage account keys list --account-name $STORAGE_NAME --resourc
 az storage container create  \
     --name $CONTAINER_NAME \
     --account-name $STORAGE_NAME \
-    --account-key $ACCESS_KEY
+    --account-key $ACCESS_KEY \
+    --public-access blob
 
