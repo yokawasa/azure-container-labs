@@ -24,7 +24,7 @@ OMS_WORKSPACE_RESOURCE_ID="/subscriptions/<SubscriptionID>/resourceGroups/<Resou
 ## Cluster Parameters
 #NODE_COUNT=2
 #VM_SIZE=Standard_D2_v2
-#KUBE_VERSION=1.10.3
+#KUBE_VERSION=1.11.1
 # SSH_KEY="~/.ssh/id_rsa.pub"
 # OMS_WORKSPACE_RESOURCE_ID="/subscriptions/87x7c7f9-0c9f-47d1-a856-1305a0cbfd7a/resourceGroups/DefaultResourceGroup-EJP/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-87c7c7f9-0c9f-47d1-a856-1305a0cbfd7a-EJP"
 

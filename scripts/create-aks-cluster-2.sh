@@ -23,7 +23,7 @@ SSH_KEY="SSH Public Key Path"
 ## Cluster Parameters
 #NODE_COUNT=2
 #VM_SIZE=Standard_D2_v2
-#KUBE_VERSION=1.10.3
+#KUBE_VERSION=1.11.1
 # SSH_KEY="~/.ssh/id_rsa.pub"
 
 echo "Regist relevant providers..."

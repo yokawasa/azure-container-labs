@@ -14,7 +14,7 @@ KUBE_VERSION="Kubernetes Version"
 # REGION="japaneast"
 ## Cluster Parameters
 #NODE_COUNT=2
-#KUBE_VERSION=1.10.3
+#KUBE_VERSION=1.11.1
 
 echo "Regist relevant providers..."
 az provider register -n Microsoft.Network
