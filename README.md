@@ -15,15 +15,14 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 108. RBAC Authorization
 109. Monitoring and logging
 110. Helm Package
-111. CI/CD Automation
+111. CI/CD Automation (VSTS)
 
 ### Advanced Topics
 200. Service Broker
-201. Service Mesh using Istio/Linkerd
-202. Virtual-Kubelet
-203. Brigade
-204. Autoscale (HPA + CA)
-205. Operator (MySQL)
+201. Service Mesh using Istio
+202. Brigade
+203. Autoscale (HPA + CA)
+204. Operator (MySQL)
 
 ### Helper Contents
 - Manage Kubernetes App with kubectl
