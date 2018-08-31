@@ -33,55 +33,62 @@ Happy Helming!
 
 
 ## Install
+
+change directory to `azure-container-labs/charts`
+```
+cd azure-container-labs/charts
+```
+Then install help chart
 ```sh
-$ helm install ./vote --debug
+# $ helm install ./azure-voting-app --debug
+# $ helm install ./azure-voting-app -n <helm name> --debug
+$ helm install ./azure-voting-app -n vote --debug 
 ```
 
 Check status
 ```sh
 $ helm ls
 NAME            REVISION        UPDATED                         STATUS          CHART                   NAMESPACE
-youngling-stoat 1               Mon Aug 13 10:04:05 2018        DEPLOYED        azure-voting-app-0.1.0  default
+vote            1               Fri Aug 31 14:17:24 2018        DEPLOYED        azure-voting-app-0.1.0  default
 
-$ helm status youngling-stoat
+$ helm status vote
 
-
-DEPLOYED: Mon Aug 13 10:04:05 2018
+LAST DEPLOYED: Fri Aug 31 14:17:24 2018
 NAMESPACE: default
 STATUS: DEPLOYED
 
 RESOURCES:
-==> v1/ConfigMap
-NAME                     DATA  AGE
-azure-voting-app-config  1     3m
-
-==> v1/StorageClass
-NAME                 PROVISIONER               AGE
-azure-disk-standard  kubernetes.io/azure-disk  3m
-
-==> v1/PersistentVolumeClaim
-NAME                       STATUS  VOLUME                                    CAPACITY  ACCESS MODES  STORAGECLASS  AGE
-azure-voting-app-pv-claim  Bound   pvc-c66705df-9e94-11e8-b7d0-de454880a5dc  1Gi       RWO           default       3m
-
-==> v1/Service
-NAME                    TYPE          CLUSTER-IP    EXTERNAL-IP     PORT(S)       AGE
-azure-voting-app-back   ClusterIP     10.0.241.76   <none>          3306/TCP      3m
-azure-voting-app-front  LoadBalancer  10.0.218.174  52.246.161.199  80:30692/TCP  3m
-
-==> v1beta1/Deployment
-NAME                    DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-azure-voting-app-back   1        1        1           1          3m
-azure-voting-app-front  2        2        2           2          3m
-
 ==> v1/Pod(related)
-NAME                                     READY  STATUS   RESTARTS  AGE
-azure-voting-app-back-84467d6d46-wbvhd   1/1    Running  0         3m
-azure-voting-app-front-56f98f5577-8tgtd  1/1    Running  0         3m
-azure-voting-app-front-56f98f5577-dc2t6  1/1    Running  0         3m
+NAME                                    READY  STATUS   RESTARTS  AGE
+azure-voting-app-back-8b4899854-4q5bd   1/1    Running  0         2m
+azure-voting-app-front-8587889df-7x74j  1/1    Running  0         2m
+azure-voting-app-front-8587889df-vknxv  1/1    Running  0         2m
 
 ==> v1/Secret
 NAME                     TYPE    DATA  AGE
-azure-voting-app-secret  Opaque  5     3m
+azure-voting-app-secret  Opaque  5     2m
+
+==> v1/ConfigMap
+NAME                     DATA  AGE
+azure-voting-app-config  1     2m
+
+==> v1/StorageClass
+NAME                 PROVISIONER               AGE
+azure-disk-standard  kubernetes.io/azure-disk  2m
+
+==> v1/PersistentVolumeClaim
+NAME                       STATUS  VOLUME                                    CAPACITY  ACCESS MODES  STORAGECLASS  AGE
+azure-voting-app-pv-claim  Bound   pvc-25460fe1-acdd-11e8-9b3c-a697f42fbc58  1Gi       RWO           default       2m
+
+==> v1/Service
+NAME                    TYPE          CLUSTER-IP   EXTERNAL-IP     PORT(S)       AGE
+azure-voting-app-back   ClusterIP     10.0.209.41  <none>          3306/TCP      2m
+azure-voting-app-front  LoadBalancer  10.0.195.51  23.100.100.104  80:31612/TCP  2m
+
+==> v1beta1/Deployment
+NAME                    DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
+azure-voting-app-back   1        1        1           1          2m
+azure-voting-app-front  2        2        2           2          2m
 
 
 NOTES:
@@ -94,17 +101,15 @@ NOTES:
 
 ## delete package
 ```sh
-$ helm del youngling-stoat
+$ helm del vote
 
-release "youngling-stoat" deleted
+release "vote" deleted
 ```
 
 ## Helm Install with parameters
 
 ```
-NAME:   callous-opossum
-
-$ helm install ./azure-voting-app -n azure-voting-app-dev --set azureVoteFront.service.type=ClusterIP,ingress.enabled=true,ingress.host=vote.04929addf0a547ef8320.japaneast.aksapp.io --debug
+$ helm install ./azure-voting-app -n vote-dev --set azureVoteFront.service.type=ClusterIP,ingress.enabled=true,ingress.host=vote.04929addf0a547ef8320.japaneast.aksapp.io --debug
 
 
 NAME:   unsung-dog
@@ -474,7 +479,6 @@ NOTES:
   echo http://127.0.0.1:80
   kubectl port-forward $POD_NAME 80:80
 
-
 ```
 
 
@@ -482,9 +486,9 @@ NOTES:
 ## HOW TO USE HELP commands
 
 ```
-helm install https://myhelmrepo001.blob.core.windows.net/helmrepo/azure-voting-app-0.1.0.tgz -n azure-voting-app-dev
+helm install https://myhelmrepo001.blob.core.windows.net/helmrepo/azure-voting-app-0.1.0.tgz -n vote-dev
 
-helm install https://myhelmrepo001.blob.core.windows.net/helmrepo/azure-voting-app-0.1.0.tgz -n azure-voting-app-dev --set azureVoteFront.service.type=ClusterIP,ingress.enabled=true,ingress.host=vote.486f848139314d26aeef.japaneast.aksapp.io,azureVoteFront.deployment.image=yoichika.azurecr.io/azure-voting-app-front,azureVoteFront.deployment.imageTag=latest
+helm install https://myhelmrepo001.blob.core.windows.net/helmrepo/azure-voting-app-0.1.0.tgz -n vote-dev --set azureVoteFront.service.type=ClusterIP,ingress.enabled=true,ingress.host=vote.486f848139314d26aeef.japaneast.aksapp.io,azureVoteFront.deployment.image=yoichika.azurecr.io/azure-voting-app-front,azureVoteFront.deployment.imageTag=latest
 ```
 
 
