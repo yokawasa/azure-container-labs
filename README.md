@@ -17,10 +17,10 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 110. CI/CD Automation (VSTS)
 
 ### Advanced Topics
-200. Service Broker
-201. Service Mesh using Istio
-202. Autoscale (HPA + CA)
-203. Operator
+201. Service Broker
+202. [Service Mesh using Istio](labs/aks-202-istio-top.md)
+203. Autoscale (HPA + CA)
+204. Operator
 
 ### Helper Contents
 - Manage Kubernetes App with kubectl
