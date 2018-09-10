@@ -1,4 +1,4 @@
-# 
+# Module AKS104: Ingress Controller
 
 
 type change from LoadBalancer -> ClusterIP
@@ -48,9 +48,5 @@ $ kubectl get ingress -w
 NAME           HOSTS                                                   ADDRESS   PORTS     AGE
 azure-vote     vote.486f848139314d26aeef.japaneast.aksapp.io                     80        1m
 ```
-
-
-
-
 
 

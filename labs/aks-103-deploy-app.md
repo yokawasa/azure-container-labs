@@ -1,4 +1,4 @@
-# Module04: Deploy the application to AKS Cluster
+# Module AKS103: Deploy the Voting App to AKS Cluster
 
 Clone the Github repo via the command line, and change directory:
 
@@ -162,7 +162,7 @@ EXTERNALIP=$(kubectl get svc azure-voting-app-front -o jsonpath='{.status.loadBa
 echo $EXTERNALIP
 ```
 
-![](../img/browse-app.png)
+![](../assets/browse-app.png)
 
 ---
-[Top](toc.md) | [Back](module01.md) | Next
+[Top](../README.md) | [Back](aks-102-acr.md) | Next

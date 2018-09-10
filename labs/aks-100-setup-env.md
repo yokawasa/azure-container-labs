@@ -1,4 +1,4 @@
-# Module00: Setup Lab environment
+# Module AKS100: Setup Lab environment
 
 ## Open Azure Cloud Shell
 
@@ -6,14 +6,14 @@ In this hands-on labs, you're running this workthrough on [Azure Cloud Shell Bas
 
 So open Azure Cloud Shell with `Base Mode`, first of all.
 
-![](../img/cloud-shell-open-bash.png)
+![](../assets/cloud-shell-open-bash.png)
 > Note: Another option is to use the full screen Azure Cloud Shell at https://shell.azure.com/.
 
 The first time you connect to the Azure Cloud Shell you will be prompted to setup an Azure File Share that you will persist the environment.
-![](../img/cloud-shell-welcome.png)
+![](../assets/cloud-shell-welcome.png)
 
 Click the "Bash (Linux)" option, and select the Azure Subscription and click "Create storage":
-![](../img/cloud-shell-no-storage-mounted.png)
+![](../assets/cloud-shell-no-storage-mounted.png)
 
 After a few seconds, your storage account will be created. Azure Cloud Shell is ready to use
 
@@ -50,4 +50,4 @@ $ az provider register -n Microsoft.ContainerService
 ```
 
 ---
-[Top](toc.md) | [Next](module01.md)
+[Top](../README.md) | [Next](aks-101-create-aks-cluster.md)
