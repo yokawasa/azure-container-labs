@@ -5,7 +5,7 @@ Before you can use Istio to control the Bookinfo version routing, you need to de
 
 ```
 # Suppose that you did not enable mutual TLS, execute this command:
-$ kc apply -f samples/bookinfo/networking/destination-rule-all.yaml
+$ kubectl apply -f samples/bookinfo/networking/destination-rule-all.yaml
 
 destinationrule "productpage" created
 destinationrule "reviews" created
@@ -33,7 +33,7 @@ This creates a bunch of `virtualservice` and `destinationrule` entries which rou
 
 To view the applied rule:
 ```
-$ kc get virtualservice reviews -o yaml
+$ kubectl get virtualservice reviews -o yaml
 
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -52,7 +52,7 @@ spec:
 
 (Optional) Also display the corresponding subset definitions: 
 ```
-$ kc get destinationrules -o yaml
+$ kubectl get destinationrules -o yaml
 ```
 
 Now when we reload the /productpage several times, we will ONLY be viewing the data from v1 of all the services, which means we will not see any ratings (any stars).
@@ -74,7 +74,7 @@ Again, all traffic will be routed to v1 of all the services.
 To start canary testing, let's begin by transferring 50% of the traffic from reviews:v1 to reviews:v3 with the following command:
 
 ```
-$ kc apply -f samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml
+$ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-50-v3.yaml
 
 virtualservice "reviews" configured
 ```
@@ -111,12 +111,12 @@ Now, if we reload the /productpage in your browser several times, you should now
 When version v3 of the reviews service is considered stable, we can route 100% of the traffic to reviews:v3:
 
 ```
-kc apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
+$ kubectl apply -f samples/bookinfo/networking/virtual-service-reviews-v3.yaml
 ```
 
 To confirm the rule was applied:
 ```
-$ kc get virtualservice reviews -o yaml
+$ kubectl get virtualservice reviews -o yaml
 
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService

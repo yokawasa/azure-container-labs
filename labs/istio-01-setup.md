@@ -14,7 +14,7 @@ Once you download the package, change directory to istio-1.0.2
 cd istio-1.0.2
 ```
 
-## Install withouth Helm
+## Install without Helm
 ```
 $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
