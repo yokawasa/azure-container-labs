@@ -81,7 +81,7 @@ virtualservice "reviews" configured
 
 To confirm the rule was applied:
 ```
-$ kc get virtualservice reviews -o yaml
+$ kubectl get virtualservice reviews -o yaml
 
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
