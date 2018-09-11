@@ -13,18 +13,45 @@ Once you download the package, change directory to istio-1.0.2
 ```
 cd istio-1.0.2
 ```
+
+## Configure RBAC for Helm
+
+```
+cat helm.yaml
+
+# helm.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: helm
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: helm
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: helm
+    namespace: kube-system
+```
+
+Run the following command
+```
+$ kubectl apply -f helm.yaml
+```
+
+
 ## Install Istio with Helm
 
 To install Istio’s core components, you have options but for a production setup of Istio, it's recommended to install with the Helm Chart, to use all the configuration options. So we use Helm to install Istio - reference: [Install with Helm and Tiller via helm install](https://istio.io/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
 ```
-# 1. If a service account has not already been installed for Tiller, install one:
-$ kubectl create -f install/kubernetes/helm/helm-service-account.yaml
-
-# 2. Install Tiller on your cluster with the service account:
-$ helm init --service-account tiller
-
-# 3. Install Istio with addons
+# Install Istio with addons
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
   --set prometheus.enabled=true \
   --set tracing.enabled=true \
