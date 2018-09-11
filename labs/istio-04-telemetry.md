@@ -28,6 +28,7 @@ If you have not already exposed grafana, please follow [Module Istio01](istio-01
 
 ## Prometheus
 If you have not already exposed prometheus, please follow [Module Istio01](istio-01-setup.md). Once you have exposed Prometheus, please access to its dashboard. Browse to `/graph` and in the `Expression` input box enter: `istio_request_count`. Click the Execute button.
+
 ![](assets/Prometheus.png)
 
 
