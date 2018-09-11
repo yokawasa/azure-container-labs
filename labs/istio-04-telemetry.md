@@ -1,4 +1,4 @@
-# Module Istio04: Observability - Telemetry Check
+# Istio04: Observability - Telemetry Check
 
 ## Generate Load on Bookinfo
 Let's generate HTTP traffic against the BookInfo application, so we can see interesting telemetry. Grab the ingress gateway port number and host:

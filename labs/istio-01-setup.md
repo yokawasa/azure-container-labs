@@ -1,4 +1,4 @@
-# Module Istio01: Setup Istio
+# Istio01: Setup Istio
 
 ## Download Istio release package
 

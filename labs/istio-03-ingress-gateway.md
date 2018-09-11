@@ -1,4 +1,4 @@
-# Module Istio03: Expose BookInfo via Istio Ingress Gateway
+# Istio03: Expose BookInfo via Istio Ingress Gateway
 
 You need to make the application accessible from outside of your Kubernetes cluster. An ingress gateway service is deployed as a LoadBalancer service. For making Bookinfo accessible from outside, we have to create an Istio Gateway. 
 

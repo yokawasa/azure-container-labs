@@ -1,4 +1,4 @@
-# Module AKS202 - Istio Service Meash 
+# AKS202 - Istio Service Meash 
 
 ---
 ## Labs Contents

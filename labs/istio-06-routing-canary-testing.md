@@ -1,4 +1,4 @@
-# Module Istio06: Traffic Control - Request Routing and Canary Testing
+# Istio06: Traffic Control - Request Routing and Canary Testing
 
 ## Set default destination rule
 Before you can use Istio to control the Bookinfo version routing, you need to define the available versions, called subsets, in destination rules. This defaut rule configure to call reviews service round robin between v1, v2, or v3 When we load the /productpage in the browser multiple times.
@@ -137,4 +137,4 @@ Now, if we reload the /productpage in your browser several times, you should now
 
 
 ---
-[Istio Top](aks-202-istio-top.md)| [Back](istio-05-distributed-tracing.md) | [Next](istio-07-circuit-breaking.md)
+[Istio Top](aks-202-istio-top.md)| [Back](istio-05-distributed-tracing.md) 

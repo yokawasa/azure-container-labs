@@ -1,4 +1,4 @@
-# Module AKS100: Setup Lab environment
+# AKS100: Setup Lab environment
 
 ## Open Azure Cloud Shell
 

@@ -1,4 +1,4 @@
-# Module AKS101: Create Azure Kubernetes Service (AKS) Cluster
+# AKS101: Create Azure Kubernetes Service (AKS) Cluster
 
 ## 1. Create Resource Group
 ```sh

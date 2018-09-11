@@ -1,4 +1,4 @@
-# Module Istio02: Deploy Sample App - BookInfo
+# Istio02: Deploy Sample App - BookInfo
 
 ## Check if  your environment support automatic sidecar injection
 
