@@ -29,14 +29,14 @@ If you have not already exposed grafana, please follow [Module Istio01](istio-01
 ## Prometheus
 If you have not already exposed prometheus, please follow [Module Istio01](istio-01-setup.md). Once you have exposed Prometheus, please access to its dashboard. Browse to `/graph` and in the `Expression` input box enter: `istio_request_count`. Click the Execute button.
 
-![](assets/Prometheus.png)
+![](../assets/Prometheus.png)
 
 
 ## Service Graph
 
 If you have not already exposed servicegraph, please follow [Module Istio01](istio-01-setup.md). Once you have exposed ServiceGraph, please access to its URI. Make sure to access to servicegraphURI/`/dotviz` and you will see the generated service graph.
 
-![](assets/servicegraph.png)
+![](../assets/servicegraph.png)
 
 For a more interactive graph, navigate to `force/forcegraph.html`.
 
