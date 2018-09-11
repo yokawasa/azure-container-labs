@@ -112,6 +112,14 @@ $ kubectl -n istio-system port-forward \
 $ curl http://localhost:8088/dotviz
 ```
 
+To port-forward and access `Jaeger`, run the follwoing commands:
+```
+$ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686
+
+$ curl http://localhost:16686
+```
+
+
 
 ## Expose and access Istio endpoints (if you can't access the Istio endpoint by forwarding local ports to a Pod)
 
@@ -128,6 +136,9 @@ $ kubectl -n istio-system edit svc grafana
 
 # for ServiceGraph
 $ kubectl -n istio-system edit svc servicegraph
+
+# for Jaeger
+$ kubectl -n istio-system edit svc jaeger-query
 ```
 
 ![](../assets/edit-isito-service.png)
