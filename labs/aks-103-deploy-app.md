@@ -3,7 +3,7 @@
 ![](../assets/voting-app-arch01.png)
 
 
-## 
+## Clone the Github repo
 Clone the Github repo via the command line, and change directory:
 
 ```sh
