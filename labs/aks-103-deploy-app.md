@@ -1,5 +1,8 @@
 # Module AKS103: Deploy the Voting App to AKS Cluster
 
+![](../assets/voting-app-arch01.png)
+
+
 ## 
 Clone the Github repo via the command line, and change directory:
 
