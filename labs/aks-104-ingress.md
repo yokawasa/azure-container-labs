@@ -1,6 +1,10 @@
 # Module AKS104: Ingress Controller
 
 
+## Setup HTTP Application Routing
+
+- https://docs.microsoft.com/ja-jp/azure/aks/http-application-routing
+- 
 type change from LoadBalancer -> ClusterIP
 ```sh
 vi kubernetes-manifests/vote/service.yaml
@@ -50,3 +54,12 @@ azure-vote     vote.486f848139314d26aeef.japaneast.aksapp.io                    
 ```
 
 
+## (Optional) Setup NGINX Ingress Controller 
+- https://docs.microsoft.com/ja-jp/azure/aks/ingress-basic
+
+## (Optional) Setup Application Gateway Ingress Controller
+- https://github.com/Azure/application-gateway-kubernetes-ingress
+
+
+---
+[Top](../README.md) | [Back](aks-103-deploy-app.md) | [Next](aks-105-scaleout.md)

@@ -1,5 +1,6 @@
 # Module AKS103: Deploy the Voting App to AKS Cluster
 
+## 
 Clone the Github repo via the command line, and change directory:
 
 ```sh
@@ -7,7 +8,66 @@ git clone https://github.com/yokawasa/azure-container-labs.git
 cd azure-container-labs
 ```
 
-## Create ConfigMap
+
+## Review/Edit the YAML Config Files
+
+If you succeeded to have a container image registered in the registry, replace the container image part of `kubernetes-manifests/vote/deployment.yaml` file with your container image:tag name.
+Of course, You can use a default container image (yoichikawasaki/azure-vote-front) for the front app, and (yoichikawasaki/azure-vote-back) for the backend (mysql).
+
+| Type | Default image in Docker Hub | new image  registerd in ACR |
+| ------------- | ------------- | ------------- |
+| Frontend  | yoichikawasaki/azure-vote-front:1.0.0 | {acrname}.azurecr.io/azure-vote-front:1.0.0 |
+| Backend   | yoichikawasaki/azure-vote-back:1.0.0 | {acrname}.azurecr.io/azure-vote-back:1.0.0 |
+
+Open `kubernetes-manifests/vote/deployment.yaml` and replace the container image
+
+```yaml
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: azure-voting-app-back
+  labels:
+    app: azure-voting-app
+    component: azure-voting-app-back
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: azure-voting-app
+        component: azure-voting-app-back
+    spec:
+      containers:
+      - name: azure-voting-app-back
+        image: yoichikawasaki/azure-vote-back:1.0.0   <<<<< <acrname>.azurecr.io/azure-vote-back:1.0.0
+        args: ["--ignore-db-dir=lost+found"]
+        ...
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: azure-voting-app-front
+  labels:
+    app: azure-voting-app
+    component: azure-voting-app-front
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: azure-voting-app
+        component: azure-voting-app-front
+    spec:
+      containers:
+      - name: azure-voting-app-front
+        image: yoichikawasaki/azure-vote-front:1.0.0  <<<<<  <acrname>.azurecr.io/azure-vote-back:1.0.0
+        resources:
+        ...
+```
+
+## Deploy the Voting App to AKS Cluster
+
+### Create ConfigMap
 ```sh
 $ kubectl apply -f kubernetes-manifests/vote/configmap.yaml
 
@@ -22,7 +82,7 @@ NAME                      DATA      AGE
 azure-voting-app-config   1         50s
 ```
 
-## Create Storage Resource
+### Create Storage Resource
 ```sh
 $ kubectl apply -f kubernetes-manifests/vote/pvc.yaml
 
@@ -38,7 +98,7 @@ NAME                        STATUS    VOLUME                                    
 azure-voting-app-pv-claim   Bound     pvc-43382768-9eaa-11e8-b7d0-de454880a5dc   1Gi        RWO            azure-disk-standard   1m
 ```
 
-## Create Secret Resource
+### Create Secret Resource
 
 Create Secret resource with the following command
 ```
@@ -47,7 +107,7 @@ $ kubectl apply -f kubernetes-manifests/vote/secret.yaml
 secret "azure-voting-app-secret" created
 ```
 
-### [NOTE] How to check secret info in your Secret resource
+#### [NOTE] How to check secret info in your Secret resource
 
 Get Secret list with the following command
 ```sh
@@ -95,7 +155,7 @@ $ echo "UGFzc3dvcmQxMg==" | base64 --decode
 Password12
 ```
 
-## Create Deployment
+### Create Deployment
 Create Deployment resource with the following command
 ```
 $ kubectl apply -f kubernetes-manifests/vote/deployment.yaml
@@ -128,7 +188,7 @@ azure-voting-app-back    1         1         1            1           1m
 azure-voting-app-front   2         2         2            2           1m
 ```
 
-## Create Service
+### Create Service
 
 Create Service resource with the following command
 ```sh
@@ -165,4 +225,4 @@ echo $EXTERNALIP
 ![](../assets/browse-app.png)
 
 ---
-[Top](../README.md) | [Back](aks-102-acr.md) | Next
+[Top](../README.md) | [Back](aks-102-acr.md) | [Next](aks-104-ingress.md)

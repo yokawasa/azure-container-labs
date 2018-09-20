@@ -2,11 +2,14 @@
 
 ## 1. Create Resource Group
 ```sh
-$ az group create -g user_akstest -l eastus
+RESOURCE_GROUP="rg_azconlab"   # Reousrce Group Name 
+REGION="eastus"                # Region Name: eastus,japaneast,etc 
+$ az group create -g $RESOURCE_GROUP -l $REGION
 ```
 
 ## 2. Create AKS Cluster
 ```sh
+CLUSTER_NAME="myazconlabs"           # AKS Cluster Name
 $ az aks create --resource-group $RESOURCE_GROUP \
     --name $CLUSTER_NAME \
     --kubernetes-version 1.11.1 \
@@ -19,13 +22,13 @@ $ az aks create --resource-group $RESOURCE_GROUP \
 >- If you already have a ssh key generated and you want to use it instead of generating new key, specify your SSH key with --ssh-key-value option instead of --generate-ssh-keys in creating AKS Cluster. Please see azure CLI command reference for az aks create for more details
 
 Run the following command to configure kubectl to connect to your Kubernetes cluster, run the following command:
-```
-$ az aks get-credentials -g user-akstest -n user-akscluster
+```sh
+$ az aks get-credentials -g $RESOURCE_GOURP -n $CLUSTER_NAME
 ```
 
 Finally, check if you can connect to the cluster by running the following command:
 
-```
+```sh
 $ kubectl get nodes
 
 NAME                       STATUS    ROLES     AGE       VERSION
