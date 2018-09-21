@@ -6,4 +6,4 @@ metadata:
 provisioner: kubernetes.io/azure-disk
 parameters:
   skuName: Standard_LRS
-  location: japaneast
+  kind: Managed

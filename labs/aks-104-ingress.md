@@ -172,7 +172,9 @@ NAME           HOSTS                                                   ADDRESS  
 azure-vote     vote.f7418ec8af894af8a2ab.eastus.aksapp.io                     80        1m
 ```
 
-Finally, you can access the app with the URL - `http://vote.<CLUSTER_SPECIFIC_DNS_ZONE>` (for example, http://vote.f7418ec8af894af8a2ab.eastus.aksapp.io)
+Finally, you can access the app with the URL - `http://vote.<CLUSTER_SPECIFIC_DNS_ZONE>`
+
+![](../assets/browse-app-ingress.png)
 
 
 ## (Optional) Setup NGINX Ingress Controller 
