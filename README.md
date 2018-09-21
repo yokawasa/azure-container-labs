@@ -9,8 +9,8 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 102. [Azure Container Resgistry (ACR) and ACR Build](labs/aks-102-acr.md)
 103. [Deploy Application to AKS cluster](labs/aks-103-deploy-app.md)
 104. [Ingress Controller](labs/aks-104-ingress.md)
-105. Scale out Pods and Nodes
-106. Deploy Replicated MySQL Topology with Stateful Sets
+105. [Scale out Pods and Nodes](labs/aks-105-scaleout.md)
+106. [Deploy Replicated MySQL Topology with Stateful Sets](labs/aks-106-statefulsets.md)
 107. Monitoring and logging
 108. Helm Package
 109. CI/CD Automation
