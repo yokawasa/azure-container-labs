@@ -83,7 +83,8 @@ kubernetes               ClusterIP      10.0.0.1      <none>        443/TCP     
 Then, edit the services and change the service type from `LoadBalancer` to `ClusterIP`:
 ```sh
 $ kubectl edit svc azure-voting-app-front
-
+```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -106,7 +107,7 @@ status:
 ```
 
 After your modification, it should be like this:
-```
+```yaml
 apiVersion: v1
 kind: Service
 metadata:

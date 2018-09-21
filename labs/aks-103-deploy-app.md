@@ -86,6 +86,7 @@ azure-voting-app-config   1         50s
 ```
 
 ### Create Storage Resource
+
 ```sh
 $ kubectl apply -f kubernetes-manifests/vote/pvc.yaml
 

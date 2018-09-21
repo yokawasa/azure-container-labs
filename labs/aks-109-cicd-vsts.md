@@ -1,7 +1,6 @@
-# Module AKS110: CI/CD with VSTS
+# Module AKS109: CI/CD with VSTS
 
-
-## VSTS 
+Soming soon
 
 
 ```
