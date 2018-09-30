@@ -12,7 +12,7 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 105. [Scale out Pods and Nodes](labs/aks-105-scaleout.md)
 106. [Deploy Replicated MySQL Topology with Stateful Sets](labs/aks-106-statefulsets.md)
 107. [Monitoring and logging](labs/aks-107-monitoring-top.md)
-108. Helm Package
+108. [Helm Package](labs/aks-108-helm.md)
 109. CI/CD Automation
 
 ### Advanced Topics
