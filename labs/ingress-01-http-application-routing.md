@@ -1,17 +1,10 @@
-# Module AKS104: Setup Ingress Controllers
-
-
-An ingress controller is a piece of software that provides reverse proxy, configurable traffic routing, and TLS termination for Kubernetes services. Kubernetes ingress resources are used to configure the ingress rules and routes for individual Kubernetes services. Using an ingress controller and ingress rules, a single IP address can be used to route traffic to multiple services in a Kubernetes cluster.
-
-## Setup HTTP Application Routing
-  
+# Ingress01: Setup HTTP Application Routing
 
 The HTTP application routing solution makes it easy to access applications that are deployed to your Azure Kubernetes Service (AKS) cluster. it configures an Ingress controller in your AKS cluster. As applications are deployed, the solution also creates publically accessible DNS names for application endpoints (it actually creates a DNS Zone in your subscription). In creating AKS cluster in the [aks-101 module](aks-101-create-aks-cluster.md), you already enabled the `HTTP application routing solution`. So you're ready to use the HTTP application routing. For more on HTTP application routing, please refer to [this](https://docs.microsoft.com/en-us/azure/aks/http-application-routing).
 
-
 In this module, you configure the HTTP application routing which has been already deployed in an Azure Kubernetes Service (AKS) cluster, and make your app accessible via the the HTTP application routing.
 
-### Change the application's service type from LoadBalancer to ClusterIP
+## Change the application's service type from LoadBalancer to ClusterIP
 
 
 At this point, you can access the application endpoint with Global IP thanks to `LoadBalancer` that you've configured as the service type in `kubernetes-manifests/vote/service.yaml`. Here, you change the service type from `LoadBalancer` to `ClusterIP`. By changing the type to `ClousterIP`, you no longer can access the endpoint with Global IP but you can access within the cluster. 
@@ -68,7 +61,7 @@ azure-vote-front   ClusterIP   10.0.118.224   <none>        80/TCP     2m
 kubernetes         ClusterIP   10.0.0.1       <none>        443/TCP    10d
 ```
 
-#### [Alternative Way to edit the service] - Directly edit the service by "kubeclt edit svc"
+### [Alternative Way to edit the service] - Directly edit the service by "kubeclt edit svc"
 
 First of all, get the service name for the front app
 ```sh
@@ -129,7 +122,7 @@ status:
 ```
 
 
-### Create ingress resource
+## Create ingress resource
 
 Browse to the auto-created AKS resource group named `MC_<ResourceGroup>_<ClusterName>_<region>` and select the DNS zone. Take note of the DNS zone name. This name is needed in next strep.
 
@@ -177,19 +170,5 @@ Finally, you can access the app with the URL - `http://vote.<CLUSTER_SPECIFIC_DN
 
 ![](../assets/browse-app-ingress.png)
 
-
-## (Optional) Setup NGINX Ingress Controller 
-
-This is optional. In this section, you deploy the NGINX ingress controller in your AKS cluster and make your app accessible via the the Ingress controller.
-
-- https://docs.microsoft.com/ja-jp/azure/aks/ingress-basic
-
-## (Optional) Setup Application Gateway Ingress Controller
-
-This is optional. In this section, you deploy the Application Gateway Ingress controller in your AKS cluster and make your app accessible via the the Ingress controller.
-
-- https://github.com/Azure/application-gateway-kubernetes-ingress
-
-
 ---
-[Top](../README.md) | [Back](aks-103-deploy-app.md) | [Next](aks-105-scaleout.md)
+[Ingress Top](aks-104-ingress-top.md)
