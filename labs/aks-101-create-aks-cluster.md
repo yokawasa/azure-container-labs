@@ -12,7 +12,7 @@ $ az group create -g $RESOURCE_GROUP -l $REGION
 CLUSTER_NAME="myazconlabs"           # AKS Cluster Name
 $ az aks create --resource-group $RESOURCE_GROUP \
     --name $CLUSTER_NAME \
-    --kubernetes-version 1.11.1 \
+    --kubernetes-version 1.11.2 \
     --node-vm-size Standard_D2_v2 \
     --node-count 3 \
     --enable-addons http_application_routing \

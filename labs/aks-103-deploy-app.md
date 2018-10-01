@@ -1,14 +1,24 @@
 # Module AKS103: Deploy the Voting App to AKS Cluster
 
+In this module, you will deploy the voting app (below) to the AKS cluster that you created in the previous secion - [AKS101: Create Azure Kubernetes Services(AKS) Cluster](aks-101-create-aks-cluster.md). 
+
 ![](../assets/voting-app-arch01.png)
 
 
-## Clone the Github repo
-Clone the Github repo via the command line, and change directory:
+## Clone the Github repo (only if you haven't done yet)
 
+Clone the workshop repo
 ```sh
-git clone https://github.com/yokawasa/azure-container-labs.git
-cd azure-container-labs
+$ git clone https://github.com/yokawasa/azure-container-labs.git
+```
+
+Then, change directory to the repository
+
+```
+$ cd azure-container-labs
+$ ls
+
+apps  assets  charts  kubernetes-manifests  labs  LICENSE  README.md  scripts
 ```
 
 

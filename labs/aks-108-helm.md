@@ -1,25 +1,52 @@
-# Module AKS108: Helm
+# Module AKS108: Deploy the Voting App to AKS Cluster with Helm and Helm Charts
 
+In this module, you will deploy the voting app (below) to the AKS cluster using Helm and Helm Chart, not applying YAML files one by one.  
+
+What's Helm? - Helm helps you manage Kubernetes applications — Helm Charts helps you define, install, and upgrade even the most complex Kubernetes application. For more detail on Helm/Helm Charts, please visit https://helm.sh/
+
+
+## Delete the existing Voting app on the cluster
 
 Starting from deleting all resources that has label `app=azure-voting-app`
+
 ```
 $ kubectl delete svc,deploy,pvc,sc,secrets,cm,ingress -l app=azure-voting-app
 ```
 
+## Install Helm CLI (only if not installed yet)
 
-## RBAC
+You need the helm CLI to develop and manage an applications with Helm. If you're using Azure Cloud Shell, you don't need to install it as it is already there.
 
-Deploy it
+```sh
+# Mac
+$ brew install kubernetes-helm
+
+# Linux (Snap package for Helm)
+$ sudo snap install helm
+
+# Windows (Chocolatey package)
+$ choco install kubernetes-helm
+```
+For the detail of Helm installation, please refer to [Installing Helm](https://github.com/helm/helm/blob/master/docs/install.md).
+
+
+## Create a service account (only for RBAC-enabled AKS cluster)
+
+You need to create a service account and role binding for the Helm `Tiller` service (the Helm server-side component)
+
 ```
 $ kubectl create -f kubernetes-manifests/rbac/helm.yaml
 ```
 
-Launch helm with the service account
+Launch helm with the service account named `tiller` with the following command:
 
 ```
-$ helm init --service-account helm --upgrade
+$ helm init --service-account tiller
+```
 
+This will install `Tiller` service in the `kube-system` namespace. The command output would be like this:
 
+```
 $HELM_HOME has been configured at /Users/yoichika/.helm.
 
 Tiller (the Helm server-side component) has been installed into your Kubernetes Cluster.
@@ -29,29 +56,133 @@ For more information on securing your installation see: https://docs.helm.sh/usi
 Happy Helming!
 ```
 
+## Install Helm Chart
 
-
-## Install
-
-change directory to `azure-container-labs/charts`
-```
-cd azure-container-labs/charts
-```
-Then install help chart
+First of all, change directory to `azure-container-labs/charts`
 ```sh
-# $ helm install ./azure-voting-app --debug
-# $ helm install ./azure-voting-app -n <helm name> --debug
-$ helm install ./azure-voting-app -n vote --debug 
+$ cd azure-container-labs/charts
+$ ls
+
+azure-voting-app
 ```
 
-Check status
+### Check default values
+
+Check `azure-voting-app/values.yaml` file and understand default values for the app
+
+```yaml
+# Default values for azure-voting-app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+  
+mysql:
+  user: dbuser
+  password: Password12
+  database: azurevote
+  rootPassword: Password12
+
+azureVoteFront:
+  service:
+    name: front
+    # service type: LoadBalancer or ClusterIP
+    type: LoadBalancer
+    externalPort: 80
+  deployment:
+    replicas: 2
+    name: front
+    image: yoichikawasaki/azure-vote-front
+    imageTag: 1.0.0
+    imagePullPolicy: Always
+    internalPort: 80
+    resources:
+      limits:
+        cpu: 500m
+      requests:
+        cpu: 250m
+
+azureVoteBack:
+  service:
+    name: back
+    type: ClusterIP
+    externalPort: 3306
+  deployment:
+    replicas: 1
+    name: back
+    image: yoichikawasaki/azure-vote-back
+    imageTag: 1.0.0
+    imagePullPolicy: IfNotPresent
+    internalPort: 3306
+    resources: {}
+
+persistence:
+  enabled: true
+  StorageClass: azure-disk-standard
+  accessMode: ReadWriteOnce
+  size: 1Gi
+
+ingress:
+  # Ingress enabled: true or false
+  # If enabled, you need to fill host info
+  enabled: false
+  host: vote.<CLUSTER_SPECIFIC_DNS_ZONE>
+```
+
+Now you want to replace default container images  (`yoichikawasaki/azure-vote-front` and  `yoichikawasaki/azure-vote-back`), and default ingress host (`vote.<CLUSTER_SPECIFIC_DNS_ZONE>`) with your values. 
+
+You basically have 2 options - either:
+-  adding your values for each parameter in `azure-voting-app/values.yaml` and install the chart
+-  or you can giving parameter values on the fly in installing the chart. 
+
+Here let's the latter option.
+
+### Verification of the chart
+Before installing a chart, please run the lint command and verify that the chart is well-formed. The `lint` command runs a series of tests to verify that the chart is well-formed.
+
+```sh
+$ helm lint azure-voting-app
+
+(output)
+==> Linting azure-voting-app
+[INFO] Chart.yaml: icon is recommended
+
+1 chart(s) linted, no failures
+```
+
+### Install Helm chart with your parameter values
+
+```sh
+# helm install ./azure-voting-app -n <helm name> --set <key1=value1,key2=value2,...> [--debug]
+
+# case: HTTP Application Routing Ingress controller
+$ helm install azure-voting-app \
+  -n vote \
+  --debug \
+  --set \
+azureVoteFront.service.type=ClusterIP,\
+azureVoteFront.deployment.image=<acrname>.azurecr.io/azure-vote-front,\
+azureVoteBack.deployment.image=<acrname>.azurecr.io/azure-vote-back,\
+ingress.enabled=true,\
+ingress.host=vote.<dnszone>
+```
+> - Don't add any spaces between values in `--set` parame! For example, `--set a,[space]b` is a bad example
+> - For `vote.dnszone`, please add the same CLUSTER_SPECIFIC_DNS_ZONE value that you set in [Setup HTTP Application Routing](ingress-01-http-application-routing.md) to this param
+
+
+After the installation, get the list of Helm packages
+
 ```sh
 $ helm ls
+
 NAME            REVISION        UPDATED                         STATUS          CHART                   NAMESPACE
 vote            1               Fri Aug 31 14:17:24 2018        DEPLOYED        azure-voting-app-0.1.0  default
+```
 
+Get status of `vote` Helm chart
+
+```sh
 $ helm status vote
 
+(output)
 LAST DEPLOYED: Fri Aug 31 14:17:24 2018
 NAMESPACE: default
 STATUS: DEPLOYED
@@ -98,397 +229,8 @@ NOTES:
   echo http://$SERVICE_IP:80
 ```
 
-## delete package
-```sh
-$ helm del vote
+Finally, you can access the app with the URL - `http://vote.<CLUSTER_SPECIFIC_DNS_ZONE>`
 
-release "vote" deleted
-```
-
-## Helm Install with parameters
-
-```
-$ helm install ./azure-voting-app -n vote-dev --set azureVoteFront.service.type=ClusterIP,ingress.enabled=true,ingress.host=vote.04929addf0a547ef8320.japaneast.aksapp.io --debug
-
-
-NAME:   unsung-dog
-REVISION: 1
-RELEASED: Mon Aug 13 10:23:43 2018
-CHART: azure-voting-app-0.1.0
-USER-SUPPLIED VALUES:
-azureVoteFront:
-  service:
-    type: ClusterIP
-ingress:
-  enabled: true
-  host: vote.486f848139314d26aeef.japaneast.aksapp.io
-
-COMPUTED VALUES:
-azureVoteBack:
-  deployment:
-    image: yoichikawasaki/azure-vote-back
-    imagePullPolicy: IfNotPresent
-    imageTag: 1.0.0
-    internalPort: 3306
-    name: back
-    replicas: 1
-    resources: {}
-  service:
-    externalPort: 3306
-    name: back
-    type: ClusterIP
-azureVoteFront:
-  deployment:
-    image: yoichikawasaki/azure-vote-front
-    imagePullPolicy: Always
-    imageTag: 1.0.0
-    internalPort: 80
-    name: front
-    replicas: 2
-    resources:
-      limits:
-        cpu: 500m
-      requests:
-        cpu: 250m
-  service:
-    externalPort: 80
-    name: front
-    type: ClusterIP
-ingress:
-  enabled: true
-  host: vote.486f848139314d26aeef.japaneast.aksapp.io
-mysql:
-  database: azurevote
-  password: Password12
-  rootPassword: Password12
-  user: dbuser
-persistence:
-  StorageClass: azure-disk-standard
-  accessMode: ReadWriteOnce
-  enabled: true
-  size: 1Gi
-
-HOOKS:
-MANIFEST:
-
----
-# Source: azure-voting-app/templates/secret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: azure-voting-app-secret
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-type: Opaque
-data:
-  MYSQL_USER: "ZGJ1c2Vy"
-  MYSQL_PASSWORD: "UGFzc3dvcmQxMg=="
-  MYSQL_DATABASE: "YXp1cmV2b3Rl"
-  MYSQL_HOST: "YXp1cmUtdm90aW5nLWFwcC1iYWNr"
-  MYSQL_ROOT_PASSWORD: "UGFzc3dvcmQxMg=="
----
-# Source: azure-voting-app/templates/configmap.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: azure-voting-app-config
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-data:
-  config_file.cfg: |
-    # UI Configurations
-    TITLE = 'Azure Voting App'
-    VOTE1VALUE = 'Beer'
-    VOTE2VALUE = 'Wine'
-    SHOWHOST = 'false'
----
-# Source: azure-voting-app/templates/storageclass.yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: azure-disk-standard
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-provisioner: kubernetes.io/azure-disk
-parameters:
-  kind: Managed
-  storageaccounttype: Standard_LRS
----
-# Source: azure-voting-app/templates/pvc.yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: azure-voting-app-pv-claim
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-  annotations:
-    volume.alpha.kubernetes.io/storage-class: default
-spec:
-  accessModes:
-    - "ReadWriteOnce"
-  resources:
-    requests:
-      storage: "1Gi"
----
-# Source: azure-voting-app/templates/azure-vote-back-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: azure-voting-app-back
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-spec:
-  type: ClusterIP
-  ports:
-    - port: 3306
-      name: mysql
-  selector:
-    app: azure-voting-app
-    component: azure-voting-app-back
-    release: unsung-dog
----
-# Source: azure-voting-app/templates/azure-vote-front-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: azure-voting-app-front
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-spec:
-  type: ClusterIP
-  ports:
-    - port: 80
-  selector:
-    app: azure-voting-app
-    component: azure-voting-app-front
-    release: unsung-dog
----
-# Source: azure-voting-app/templates/azure-vote-back-deployment.yaml
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: azure-voting-app-back
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-    component: azure-voting-app-back
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: azure-voting-app
-        heritage: "Tiller"
-        release: "unsung-dog"
-        chart: azure-voting-app-0.1.0
-        component: azure-voting-app-back
-    spec:
-      containers:
-      - name: azure-voting-app-back
-        image: "yoichikawasaki/azure-vote-back:1.0.0"
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 3306
-          name: mysql
-        args:
-          - --ignore-db-dir=lost+found
-        volumeMounts:
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: azure-voting-app-secret
-              key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: azure-voting-app-secret
-              key: MYSQL_USER
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: azure-voting-app-secret
-              key: MYSQL_PASSWORD
-        - name: MYSQL_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: azure-voting-app-secret
-              key: MYSQL_DATABASE
-        resources:
-          {}
-
-      volumes:
-      - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: azure-voting-app-pv-claim
----
-# Source: azure-voting-app/templates/azure-vote-front-deployment.yaml
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: azure-voting-app-front
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-    component: azure-voting-app-front
-spec:
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        app: azure-voting-app
-        heritage: "Tiller"
-        release: "unsung-dog"
-        chart: azure-voting-app-0.1.0
-        component: azure-voting-app-front
-    spec:
-      containers:
-      - name: azure-voting-app-front
-        image: "yoichikawasaki/azure-vote-front:1.0.0"
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
-        env:
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: azure-voting-app-secret
-              key: MYSQL_USER
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: azure-voting-app-secret
-              key: MYSQL_PASSWORD
-        - name: MYSQL_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: azure-voting-app-secret
-              key: MYSQL_DATABASE
-        - name: MYSQL_HOST
-          valueFrom:
-            secretKeyRef:
-              name: azure-voting-app-secret
-              key: MYSQL_HOST
-        - name: FLASK_CONFIG_FILE_PATH
-          value: /etc/config/config_file.cfg
-        volumeMounts:
-        - name: config-map
-          mountPath: /etc/config
-        resources:
-          limits:
-            cpu: 500m
-          requests:
-            cpu: 250m
-
-      volumes:
-      - name: config-map
-        configMap:
-          name: azure-voting-app-config
----
-# Source: azure-voting-app/templates/ingress.yaml
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: azure-voting-app
-  labels:
-    app: azure-voting-app
-    heritage: "Tiller"
-    release: "unsung-dog"
-    chart: azure-voting-app-0.1.0
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
-spec:
-  rules:
-  - host: vote.486f848139314d26aeef.japaneast.aksapp.io
-    http:
-      paths:
-      - backend:
-          serviceName: azure-voting-app-front
-          servicePort: 80
-        path: /
-LAST DEPLOYED: Mon Aug 13 10:23:43 2018
-NAMESPACE: default
-STATUS: DEPLOYED
-
-RESOURCES:
-==> v1/Service
-NAME                    TYPE       CLUSTER-IP    EXTERNAL-IP  PORT(S)   AGE
-azure-voting-app-back   ClusterIP  10.0.37.237   <none>       3306/TCP  1s
-azure-voting-app-front  ClusterIP  10.0.156.233  <none>       80/TCP    1s
-
-==> v1beta1/Deployment
-NAME                    DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-azure-voting-app-back   1        1        1           0          1s
-azure-voting-app-front  2        2        2           0          1s
-
-==> v1beta1/Ingress
-NAME              HOSTS                                          ADDRESS  PORTS  AGE
-azure-voting-app  vote.486f848139314d26aeef.japaneast.aksapp.io  80       1s
-
-==> v1/Pod(related)
-NAME                                    READY  STATUS             RESTARTS  AGE
-azure-voting-app-back-5dc97c756c-l9slq  0/1    Pending            0         0s
-azure-voting-app-front-799897ccd-gr47d  0/1    ContainerCreating  0         0s
-azure-voting-app-front-799897ccd-kjlpp  0/1    ContainerCreating  0         0s
-
-==> v1/Secret
-NAME                     TYPE    DATA  AGE
-azure-voting-app-secret  Opaque  5     1s
-
-==> v1/ConfigMap
-NAME                     DATA  AGE
-azure-voting-app-config  1     1s
-
-==> v1/StorageClass
-NAME                 PROVISIONER               AGE
-azure-disk-standard  kubernetes.io/azure-disk  1s
-
-==> v1/PersistentVolumeClaim
-NAME                       STATUS   VOLUME   CAPACITY  ACCESS MODES  STORAGECLASS  AGE
-azure-voting-app-pv-claim  Pending  default  1s
-
-
-NOTES:
-1. Get the Azure Voting App URL to visit by running these commands in the same shell:
-  export POD_NAME=$(kubectl get pods --namespace default -l "component=azure-voting-app-front" -o jsonpath="{.items[0].metadata.name}")
-  echo http://127.0.0.1:80
-  kubectl port-forward $POD_NAME 80:80
-
-```
-
-
-
-## HOW TO USE HELP commands
-
-```
-helm install https://myhelmrepo001.blob.core.windows.net/helmrepo/azure-voting-app-0.1.0.tgz -n vote-dev
-
-helm install https://myhelmrepo001.blob.core.windows.net/helmrepo/azure-voting-app-0.1.0.tgz -n vote-dev --set azureVoteFront.service.type=ClusterIP,ingress.enabled=true,ingress.host=vote.486f848139314d26aeef.japaneast.aksapp.io,azureVoteFront.deployment.image=yoichika.azurecr.io/azure-voting-app-front,azureVoteFront.deployment.imageTag=latest
-```
 
 ---
 [Top](../README.md) | [Back](aks-107-monitoring-logging.md) | Next(comming soon)
