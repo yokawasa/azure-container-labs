@@ -183,54 +183,59 @@ Get status of `vote` Helm chart
 $ helm status vote
 
 (output)
-LAST DEPLOYED: Fri Aug 31 14:17:24 2018
+LAST DEPLOYED: Tue Oct  2 06:42:01 2018
 NAMESPACE: default
 STATUS: DEPLOYED
 
 RESOURCES:
-==> v1/Pod(related)
-NAME                                    READY  STATUS   RESTARTS  AGE
-azure-voting-app-back-8b4899854-4q5bd   1/1    Running  0         2m
-azure-voting-app-front-8587889df-7x74j  1/1    Running  0         2m
-azure-voting-app-front-8587889df-vknxv  1/1    Running  0         2m
-
 ==> v1/Secret
 NAME                     TYPE    DATA  AGE
-azure-voting-app-secret  Opaque  5     2m
+azure-voting-app-secret  Opaque  5     4m
 
 ==> v1/ConfigMap
 NAME                     DATA  AGE
-azure-voting-app-config  1     2m
+azure-voting-app-config  1     4m
 
 ==> v1/StorageClass
 NAME                 PROVISIONER               AGE
-azure-disk-standard  kubernetes.io/azure-disk  2m
+azure-disk-standard  kubernetes.io/azure-disk  4m
 
 ==> v1/PersistentVolumeClaim
 NAME                       STATUS  VOLUME                                    CAPACITY  ACCESS MODES  STORAGECLASS  AGE
-azure-voting-app-pv-claim  Bound   pvc-25460fe1-acdd-11e8-9b3c-a697f42fbc58  1Gi       RWO           default       2m
+azure-voting-app-pv-claim  Bound   pvc-d4eaee65-c5c2-11e8-9df1-62b806197846  1Gi       RWO           default       4m
 
 ==> v1/Service
-NAME                    TYPE          CLUSTER-IP   EXTERNAL-IP     PORT(S)       AGE
-azure-voting-app-back   ClusterIP     10.0.209.41  <none>          3306/TCP      2m
-azure-voting-app-front  LoadBalancer  10.0.195.51  23.100.100.104  80:31612/TCP  2m
+NAME                    TYPE       CLUSTER-IP    EXTERNAL-IP  PORT(S)   AGE
+azure-voting-app-back   ClusterIP  10.0.23.87    <none>       3306/TCP  4m
+azure-voting-app-front  ClusterIP  10.0.201.158  <none>       80/TCP    4m
 
 ==> v1beta1/Deployment
 NAME                    DESIRED  CURRENT  UP-TO-DATE  AVAILABLE  AGE
-azure-voting-app-back   1        1        1           1          2m
-azure-voting-app-front  2        2        2           2          2m
+azure-voting-app-back   1        1        1           1          4m
+azure-voting-app-front  2        2        2           2          4m
 
+==> v1beta1/Ingress
+NAME              HOSTS                                          ADDRESS         PORTS  AGE
+azure-voting-app  vote.277b0e61c86b4ea38dbb.japaneast.aksapp.io  40.115.139.244  80     4m
+
+==> v1/Pod(related)
+NAME                                     READY  STATUS   RESTARTS  AGE
+azure-voting-app-back-7f5cfdffd7-j8vvp   1/1    Running  0         4m
+azure-voting-app-front-5895b59496-4h999  1/1    Running  0         4m
+azure-voting-app-front-5895b59496-qtg4v  1/1    Running  0         4m
 
 NOTES:
 1. Get the Azure Voting App URL to visit by running these commands in the same shell:
-  NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-        You can watch the status of by running 'kubectl get svc --namespace default -w azure-voting-app-front'
-  export SERVICE_IP=$(kubectl get svc --namespace default azure-voting-app-front --template "{{ range (index .status.loadBalancer.ingress 0) }}{{ . }}{{ end }}")
-  echo http://$SERVICE_IP:80
+  export POD_NAME=$(kubectl get pods --namespace default -l "component=azure-voting-app-front" -o jsonpath="{.items[0].metadata.name}")
+  echo http://127.0.0.1:80
+  kubectl port-forward $POD_NAME 80:80
 ```
 
 Finally, you can access the app with the URL - `http://vote.<CLUSTER_SPECIFIC_DNS_ZONE>`
+> [NOTE] it may take over 10 minutes untill you can access the service with the URL after the Helm installation (DNS propagation may take some time)
 
+
+![](../assets/browse-app-ingress.png)
 
 ---
 [Top](../README.md) | [Back](aks-107-monitoring-logging.md) | Next(comming soon)
