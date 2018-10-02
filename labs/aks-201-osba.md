@@ -1,5 +1,9 @@
 # AKS201 - Provision, bind and consume Azure Database for MySQL using OSBA
 
+In this module, you will provision and bind Azure Database for MySQL, then configure the voting app to consume Azure Database for MySQL using [Open Service Broker for Azure](https://github.com/Azure/open-service-broker-azure) (OSBA).
+
+![](../assets/voting-app-arch02-osba.png)
+
 ## Install Open Service Broker for Azure
 
 Open Service Broker for Azure (OSBA) is the open source, Open Service Broker-compatible API server that provisions managed services in Azure. As prerequisites, you need to install Service Catalog onto your Kubernetes cluster.
@@ -230,7 +234,16 @@ Run the following command to initialize database for the Voting app
 $ scripts/init-azure-mysql-table.sh my-osba-mysql-secret
 ```
 
+### Delete the existing Voting app on the cluster (if you have)
+
+Delete all resources that has label `app=azure-voting-app`
+
+```
+$ kubectl delete svc,deploy,pvc,sc,secrets,cm,ingress -l app=azure-voting-app
+```
+
 ### Create ConfigMap
+
 ```sh
 $ kubectl apply -f kubernetes-manifests/vote-sb/configmap.yaml
 
@@ -286,39 +299,61 @@ $ kubectl apply -f kubernetes-manifests/vote-sb/service.yaml
 
 service "azure-voting-app-front" created
 ```
+> [NOTE] In this case, service type is defined as `ClusterIP`, NOT `EXTERNAL-IP` 
 
-Get Service info list. Wait until an external IP for `azure-voting-app-front` is assigned in`EXTERNAL-IP` field
+
+### Create ingress Controller
+
+Open `kubernetes-manifests/vote/ingress.yaml` and replace `<CLUSTER_SPECIFIC_DNS_ZONE>` with the DNS zone that you can obtained from DNS zone resource created in the auto-created AKS resource group named `MC_<ResourceGroup>_<ClusterName>_<region>`. Please refer to [Ingress01: Setup HTTP Application Routing](ingress-01-http-application-routing.md#create-ingress-resource) to know more about how to get DNS Zone name.
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: azure-voting-app
+  labels:
+    app: azure-voting-app
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: vote.<CLUSTER_SPECIFIC_DNS_ZONE>
+    http:
+      paths:
+      - backend:
+          serviceName: azure-voting-app-front
+          servicePort: 80
+        path: /
+```
+
+Then, deploy the ingress
 
 ```sh
-kubectl get svc -w
+$ kubectl apply -f kubernetes-manifests/vote-sb/ingress.yaml
 
-NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-azure-voting-app-front   LoadBalancer   10.0.45.202    <pending>     80:32125/TCP   33s
-kubernetes               ClusterIP      10.0.0.1       <none>        443/TCP        11d
-azure-voting-app-front   LoadBalancer   10.0.45.202   40.115.180.143   80:32125/TCP   45s
-```
-> Option `-w` can watch for changes after listing/getting the requested objects
-
-Access the service with an assigned external IP
-```
-curl 40.115.180.143    << an assigned external IP
+ingress.extensions/azure-voting-app created
 ```
 
-NOTE: an external IP can be obtained by using `-o jsonpath` option like this:
-```
-EXTERNALIP=$(kubectl get svc azure-voting-app-front -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-echo $EXTERNALIP
+Check if the ingress is actually created
+```sh
+$ kubectl get ingress -w
+
+NAME           HOSTS                                                   ADDRESS   PORTS     AGE
+azure-vote     vote.f7418ec8af894af8a2ab.eastus.aksapp.io                     80        1m
 ```
 
-![](../assets/browse-app.png)
+Finally, you can access the app with the URL - `http://vote.<CLUSTER_SPECIFIC_DNS_ZONE>`
+
+![](../assets/browse-app-ingress.png)
+
 
 
 ## Useful Links
 - [Installing Helm](https://docs.helm.sh/using_helm/#installing-helm)
 - [Install Service Catalog](https://docs.microsoft.com/en-us/azure/aks/integrate-azure#install-service-catalog)
 - [Install Open Service Broker for Azure](https://docs.microsoft.com/en-us/azure/aks/integrate-azure#install-open-service-broker-for-azure)
-- [Parametes of Broker for Azure Database for PostgreSQL](https://github.com/Azure/open-service-broker-azure/blob/master/docs/modules/postgresql.md)
-- [Azure Database for PostgreSQL](https://azure.microsoft.com/en-us/services/postgresql/)
+- [Parametes of Broker for Azure Database for MySQL](https://github.com/Azure/open-service-broker-azure/blob/master/docs/modules/mysql.md)
+- [Azure Database for MySQL](https://azure.microsoft.com/en-us/services/mysql/)
 
 ---
 [Top](../README.md) | [Next](aks-202-istio-top.md)
