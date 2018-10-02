@@ -12,14 +12,14 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 105. [Scale out Pods and Nodes](labs/aks-105-scaleout.md)
 106. [Deploy Replicated MySQL Topology with Stateful Sets](labs/aks-106-statefulsets.md)
 107. [Monitoring and logging](labs/aks-107-monitoring-top.md)
-108. [Helm Package](labs/aks-108-helm.md)
+108. [Helm and Helm Charts](labs/aks-108-helm.md)
 109. CI/CD Automation
 
 ### Advanced Topics
-201. Service Broker
-202. [Service Mesh using Istio](labs/aks-202-istio-top.md)
-203. Autoscale (HPA + CA)
-204. RBAC and AAD
+1.   [Open Service Broker Azure (OSBA)](labs/aks-201-osba.md)
+2.   [Service Mesh using Istio](labs/aks-202-istio-top.md)
+3.   Autoscale (HPA + CA)
+4.   RBAC and AAD
 
 ### Helper Contents
 - Manage Kubernetes App with kubectl
@@ -29,7 +29,7 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 ---
 ## App Services for Container Labs
 ### Lab Contents
-101. Setup Azure Database for MySQL
-102. Build and Push Docker image to Container Registery
-103. Setup Web App and deploy the application to Web App
+1.   Setup Azure Database for MySQL
+2.   Build and Push Docker image to Container Registery
+3.   Setup Web App and deploy the application to Web App
 

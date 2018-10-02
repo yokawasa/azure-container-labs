@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e -x
 
 MYSQL_USER="<mysql-user>"
 MYSQL_PASSWORD="<mysql-password>"
