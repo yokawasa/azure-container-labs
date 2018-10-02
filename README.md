@@ -16,20 +16,21 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 109. CI/CD Automation
 
 ### Advanced Topics
-1.   [Open Service Broker Azure (OSBA)](labs/aks-201-osba.md)
-2.   [Service Mesh using Istio](labs/aks-202-istio-top.md)
-3.   Autoscale (HPA + CA)
-4.   RBAC and AAD
+201. [Open Service Broker Azure (OSBA)](labs/aks-201-osba.md)
+202. [Service Mesh using Istio](labs/aks-202-istio-top.md)
+203. Autoscale (HPA + CA)
+204. RBAC and AAD
 
 ### Helper Contents
-- Manage Kubernetes App with kubectl
-- Manage AKS Cluster with Azure CLI
+- kubectl for managing Kubernetes app
+- Azure CLI for managing AKS Cluster
+- Helm CLI Commands
 - Uselful Tools
 
 ---
 ## App Services for Container Labs
 ### Lab Contents
-1.   Setup Azure Database for MySQL
-2.   Build and Push Docker image to Container Registery
-3.   Setup Web App and deploy the application to Web App
+401. Setup Azure Database for MySQL
+402. Build and Push Docker image to Container Registery
+403. Setup Web App and deploy the application to Web App
 
