@@ -132,7 +132,7 @@ $ curl http://localhost:16686
 
 ## Expose and access Istio endpoints (if you can't access the Istio endpoint by forwarding local ports to a Pod)
 
-For example, if you are using `Azure Cloud Shell`, you can not use local portforward to access internal endpoints in Istio, you need to change the service type from `ClusterIP` to `LoadBalancer`. By changing the type to `LoadBalancer`, you can access the endpoint with Global IP. 
+For example, if you are using `Azure Cloud Shell`, you can not use local portforward to access internal endpoints in Istio, you need to change the service type from `ClusterIP` to `LoadBalancer`. By changing the type to `LoadBalancer`, you can access the endpoint with Global IP. 
 
 Edit the services and change the service type from `ClusterIP` to `LoadBalancer`:
 
