@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-voting-app-front
+  labels:
+    app: azure-voting-app
+spec:
+  type: LoadBalancer
+  # type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: azure-voting-app
+    component: azure-voting-app-front

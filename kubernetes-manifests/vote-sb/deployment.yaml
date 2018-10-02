@@ -1,0 +1,61 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: azure-voting-app-front
+  labels:
+    app: azure-voting-app
+    component: azure-voting-app-front
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: azure-voting-app
+        component: azure-voting-app-front
+    spec:
+      containers:
+      - name: azure-voting-app-front
+        image: yoichikawasaki/azure-vote-front:1.0.1
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        imagePullPolicy: Always
+        env:
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: my-osba-mysql-secret
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: my-osba-mysql-secret
+        - name: MYSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              key: host
+              name: my-osba-mysql-secret
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: database
+              name: my-osba-mysql-secret
+        - name: FLASK_CONFIG_FILE_PATH
+          value: /etc/config/config_file.cfg
+        volumeMounts:
+        - name: config-map
+          mountPath: /etc/config
+      volumes:
+      - name: config-map
+        configMap:
+          name: azure-voting-app-config

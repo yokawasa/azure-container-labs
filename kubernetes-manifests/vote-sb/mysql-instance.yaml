@@ -1,0 +1,22 @@
+apiVersion: servicecatalog.k8s.io/v1beta1
+kind: ServiceInstance
+metadata:
+  name: my-osba-mysql-instance
+  namespace: default
+spec:
+  clusterServiceClassExternalName: azure-mysql-5-7
+  clusterServicePlanExternalName: general-purpose
+  parameters:
+    location: japaneast
+    resourceGroup: RG_azconlab
+    sslEnforcement: disabled
+    firewallRules:
+    - name: "AllowFromAzure"
+      startIPAddress: "0.0.0.0"
+      endIPAddress: "0.0.0.0"
+    #- name: AllowAll
+    #  startIPAddress: 0.0.0.0
+    #  endIPAddress: 255.255.255.255
+    cores: 2
+    storage: 5
+    backupRetention: 7
