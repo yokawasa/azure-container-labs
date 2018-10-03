@@ -1,5 +1,7 @@
 # Istio02: Deploy Sample App - BookInfo
 
+![](../assets/istio-bookinfo-app.png)
+
 ## Check if  your environment support automatic sidecar injection
 
 You have 2 ways to inject sidecar: `manual sidecar injection` or `automatic sidecar injection`. 
