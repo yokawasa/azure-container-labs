@@ -7,3 +7,7 @@
 4. [Observability - Telemetry Check](istio-04-telemetry.md)
 5. [Observability - Distributed Tracing](istio-05-distributed-tracing.md)
 6. [Traffic Control - Request Routing and Canary Testing](istio-06-routing-canary-testing.md)
+
+
+## Other Materials
+- [Istio Service Mesh Overview Slides (Japanese)](https://www.slideshare.net/yokawasa/istio-114360124)
