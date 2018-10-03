@@ -1,7 +1,5 @@
 # AKS202 - Istio Service Meash 
 
-![](../assets/istio-arch.png)
-
 ## Labs Contents
 1. [Setup Isito](istio-01-setup.md)
 2. [Deploy Sample App - BookInfo](istio-02-deploy-bookinfo.md)
