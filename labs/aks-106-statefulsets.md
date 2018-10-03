@@ -1,5 +1,9 @@
 # Module AKS106: Deploy Replicated MySQL Topology with Stateful Sets
 
+In this module, you will setup a replicated stateful MySQL HA cluster using a `StatefulSet` controller. It is a MySQL single-master topology with multiple slaves running asynchronous replication.
+
+![](../assets/statefulset-mysql-ha.png)
+
 ## Deploy HA MySQL
 
 ### Create StorageClass (Azure Disk)
@@ -20,7 +24,6 @@ default (default)     kubernetes.io/azure-disk   22h
 managed-premium       kubernetes.io/azure-disk   22h
 my-mysql-ha           kubernetes.io/azure-disk   29s
 ```
-
 
 ### Create ConfigMap
 

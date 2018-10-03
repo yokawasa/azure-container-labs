@@ -5,7 +5,7 @@ In this module, you will use Azure Container Registry (ACR) to build containers 
 ## Create Azure Container Registry instance
 
 ```sh
-ACR_NAME="myazconacr"   # Registry Name
+ACR_NAME="myazconacr"   # Your Registry Name
 az acr create --resource-group $RESOURCE_GROUP --name $ACR_NAME --sku Standard
 ```
 > - Resource Group: Use the existing Resource Group that you created in previous module
