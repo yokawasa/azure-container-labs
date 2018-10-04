@@ -4,36 +4,58 @@
 
 In this workshop, we use `istio-1.0.2`. Run the following command to download `istio-1.0.2` package
 
-```
+```sh
 $ curl -L https://raw.githubusercontent.com/yokawasa/azure-container-labs/master/scripts/istio-helpers/get-istio | sh -
 #   -> istio-1.0.2
 ```
 
 Once you download the package, change directory to istio-1.0.2
-```
+```sh
 cd istio-1.0.2
 ```
+## Install Istio Core Components
 
-## Install without Helm
+To install Istio’s core components, you have options:
+- (a) Install Istio with Helm
+- (b) Install Istio without Helm (by applying YAMLs)
+
+Please see [Istio - Installation Options](https://istio.io/docs/reference/config/installation-options/) for more details on what options can be added. 
+
+### (a) Install Istio with Helm
+
+For a production setup of Istio, it's recommended to install with the Helm Chart, to use all the configuration options.
+
+If a service account has not already been installed for `Tiller`, install one by running the follwoing command:
+```sh
+$ cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tiller
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: tiller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: tiller
+  namespace: kube-system
+EOF
 ```
-$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
-$ kubectl apply -f install/kubernetes/istio-demo.yaml
-```
 
-## Install with Helm
-
-### Install Istio with Helm
-
-To install Istio’s core components, you have options but for a production setup of Istio, it's recommended to install with the Helm Chart, to use all the configuration options. So we use Helm to install Istio - reference: [Install with Helm and Tiller via helm install](https://istio.io/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
-
-```
-# 1 If a service account has not already been installed for Tiller, install one:
-$ kubectl apply -f install/kubernetes/helm/helm-service-account.yaml
-
-# 2. Install Tiller on your cluster with the service account:
+Then, install `Tiller` on your cluster with the service account:
+```sh
 $ helm init --service-account tiller --upgrade
+```
 
-# 3. Install Istio with addons
+Install Istio with addons using Helm:
+```sh
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
   --set prometheus.enabled=true \
   --set tracing.enabled=true \
@@ -44,8 +66,14 @@ $ helm install install/kubernetes/helm/istio --name istio --namespace istio-syst
 In this workshop, we use prometheus and grafana for viewing the metrics from Istio, and Jaeger for tracing, and Service graph.
 By default, Istio is installed with parameters like `Prometheus:enabled`, `grafana:disabled`, `Jaeger:disabled`,  `servicegraph:disabled`, therefore, these parameters need to be enabled like above. 
 
-Please see [Istio - Installation Options](https://istio.io/docs/reference/config/installation-options/) for more details on what options can be added. 
+For more detail, see [Install with Helm and Tiller via helm install](https://istio.io/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
+
+### (b) Install Istio without Helm (by applying YAMLs)
+```sh
+$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+$ kubectl apply -f install/kubernetes/istio-demo.yaml
+```
 
 ## Check Pods & Services of Istio
 
