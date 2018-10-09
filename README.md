@@ -25,7 +25,7 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 - kubectl for managing Kubernetes app
 - Azure CLI for managing AKS Cluster
 - Helm CLI Commands
-- Uselful Tools
+- [Uselful Tools](labs/helper-k8s-useful-tools.md)
 
 ---
 ## App Services for Container Labs
