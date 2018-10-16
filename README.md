@@ -22,7 +22,7 @@ Azure Container Labs - AKS, ACI, App Service for Container, and more
 204. RBAC and AAD
 
 ### Helper Contents
-- kubectl for managing Kubernetes app
+- [kubectl for managing Kubernetes app](labs/helper-k8s-kubectl.md)
 - Azure CLI for managing AKS Cluster
 - Helm CLI Commands
 - [Uselful Tools](labs/helper-k8s-useful-tools.md)
