@@ -5,10 +5,13 @@
 ```sh
 # Describe a node
 $ kubectl describe nodes <nodename>
+
 # Describe a specific Pod
 $ kubectl describe pods/<podname> [-n <namespace>]
+
 # Describe all pods
 $ kubectl describe pods [-n <namespace>]
+
 # Describe Pod that has `name=myLabel` label
 $ kubectl describe po -l name=myLabel
 ```
@@ -106,11 +109,3 @@ Suppose you want to get a shell to the running Container in a Pod named wildfly-
 $ kubectl exec -it wildfly-1364584080-01z1x -- /bin/bash
 ```
 See also [Get a Shell to a Running Container](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) to lean more about the command.
-
-
-## Cleanup all k8s objects selected by labels
-
-Cleanup all objects that has a label "context=AKSDemo"
-```sh
-$ kubectl delete svc,deploy,ds -l context=AKSDemo
-```
