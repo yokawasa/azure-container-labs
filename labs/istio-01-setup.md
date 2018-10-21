@@ -25,7 +25,23 @@ Please see [Istio - Installation Options](https://istio.io/docs/reference/config
 
 For a production setup of Istio, it's recommended to install with the Helm Chart, to use all the configuration options.
 
-If a service account has not already been installed for `Tiller`, install one by running the follwoing command:
+First of all, check Helm version that you're using, and if you're using a Helm version prior to 2.10.0, install Istio’s Custom Resource Definitions (CRD) via kubectl apply, and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+
+```sh
+# Check Helm version
+$ helm version
+
+Client: &version.Version{SemVer:"v2.8.2", GitCommit:"a80231648a1473929271764b920a8e346f6de844", GitTreeState:"clean"}
+Server: &version.Version{SemVer:"v2.8.2", GitCommit:"a80231648a1473929271764b920a8e346f6de844", GitTreeState:"clean"}
+
+# Install (if you're using < 2.10.0)
+$ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
+
+# If you are enabling certmanager, you also need to install its CRDs as well and wait a few seconds for the CRDs to be committed in the kube-apiserver:
+$ kubectl apply -f install/kubernetes/helm/istio/charts/certmanager/templates/crds.yaml
+```
+
+Then, if a service account has not already been installed for `Tiller`, install one by running the follwoing command:
 ```sh
 $ cat <<EOF | kubectl apply -f -
 apiVersion: v1
