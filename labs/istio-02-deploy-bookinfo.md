@@ -16,6 +16,8 @@ $ kubectl api-versions | grep admissionregistration
 
 If your environment supports these two APIs, then you may use `automatic sidecar injection`. 
 
+> [NOTE]: automatic injection occurs at the pod-level. You won’t see any change to the deployment itself. Instead you’ll want to check individual pods (via `kubectl describe`) to see the injected proxy.
+
 ## Deploy sample app - Bookinfo
 ### Option1 - manual sidecar injection.
 ```
