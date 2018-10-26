@@ -1,8 +1,7 @@
 # Kubernetes Userful Tools
 
 ## kubectx
-kubectx is a commandline tool that allow you to switch between clusters and namespaces in kubectl easily & smoothly
-- https://github.com/ahmetb/kubectx
+[kubectx](https://github.com/ahmetb/kubectx) is a commandline tool that allow you to switch between clusters and namespaces in kubectl easily & smoothly
 
 ```sh
 # installation (Mac)
@@ -14,8 +13,7 @@ $ kubectx [tab]
 ```
 
 ## stern
-stern is a commandline for multi pod and container log tailing for Kubernetes
-- https://github.com/wercker/stern
+[stern](https://github.com/wercker/stern) is a commandline for multi pod and container log tailing for Kubernetes
 
 ```
 # installation on MacOS
@@ -34,6 +32,50 @@ samplepod-684ccd679f-nl252 sample-pod-demo ===== Records =====
 samplepod-684ccd679f-nl252 sample-pod-demo Id: 1 Content: hoge
 samplepod-684ccd679f-nl252 sample-pod-demo Id: 2 Content: foo
 samplepod-684ccd679f-nl252 sample-pod-demo Id: 3 Content: bar
+```
+
+## kubefwd
+[kubefwd](https://github.com/txn2/kubefwd) is a command line utility built to port forward some or all pods within a Kubernetes namespace.
+
+Installation on Mac
+```sh
+$ brew install txn2/tap/kubefwd
+```
+
+For other platform, use docker like this:
+```sh
+$ docker run -it --rm --privileged --name the-project \
+    -v "$(echo $HOME)/.kube/":/root/.kube/ \
+    txn2/kubefwd services -n the-project
+
+$ docker exec the-project curl -s <target>
+```
+
+Here is how to use:
+```sh
+# For all services for default namespace
+sudo kubefwd services
+# For all services for a specific namespace
+sudo kubefwd services -n <namespace>
+
+
+ _          _           __             _
+| | ___   _| |__   ___ / _|_      ____| |
+| |/ / | | | '_ \ / _ \ |_\ \ /\ / / _  |
+|   <| |_| | |_) |  __/  _|\ V  V / (_| |
+|_|\_\\__,_|_.__/ \___|_|   \_/\_/ \__,_|
+
+Press [Ctrl-C] to stop forwarding.
+Loading hosts file /etc/hosts
+Original hosts backup already exists at /etc/hosts.original
+Forwarding local 127.1.27.1:443 as kubernetes:443 to pod mytimeds-m7sn9:443
+Forwarding local 127.1.27.2:80 as party-clippy:80 to pod party-clippy-dc7448885-fbzj4:8080
+```
+
+Then, access party-clippy
+
+```sh
+curl party-clippy:80
 ```
 
 
