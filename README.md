@@ -30,9 +30,9 @@ Azure Container Labs - AKS, App Service for Container, Service Fabric, and more
 ---
 ## App Services for Container Labs
 ### Lab Contents
-101. Setup Azure Database for MySQL
-102. Build and push Docker image to Container Registery
-103. Setup Web App and deploy the application to Web App
+101. [Setup Azure Database for MySQL](labs/webapp-101-azdb4mysql.md)
+102. [Build and push Docker image to Container Registery](labs/webapp-102-acr.md)
+103. [Setup Web App and deploy the application to Web App](labs/webapp-103-deploy-app.md)
 
 ---
 ## Service Fabric Labs

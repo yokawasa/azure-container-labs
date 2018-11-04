@@ -9,7 +9,11 @@ import sys
 app = Flask(__name__)
 
 # Load configurations
-app.config.from_envvar('FLASK_CONFIG_FILE_PATH')
+if "FLASK_CONFIG_FILE_PATH" in os.environ:
+    app.config.from_envvar('FLASK_CONFIG_FILE_PATH')
+else:
+    app.config.from_pyfile('config_file.cfg')
+
 button1 =       app.config['VOTE1VALUE']  
 button2 =       app.config['VOTE2VALUE']
 title =         app.config['TITLE']
