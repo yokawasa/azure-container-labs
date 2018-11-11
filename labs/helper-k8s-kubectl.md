@@ -16,7 +16,12 @@ $ kubectl describe pods [-n <namespace>]
 $ kubectl describe po -l name=myLabel
 ```
 
-## Scale the number of Pods:
+## Dump cluster info
+```sh
+$ kubectl cluster-info dump
+```
+
+## Scale the number of Pods
 
 Check the # of wildfly pod by running **kubectl get po**:
 ```sh
@@ -53,18 +58,18 @@ NAME      DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 wildfly   3         3         3            3           1h
 ```
 
-## Update the kubernete app:
+## Update the kubernete app
 
 First of all, prepare a new container image for the app and push it to a container registry. 
 
-### Option1: Update the app by running "kubectl set image":
+### Option1: Update the app by running "kubectl set image"
 
 Suppose you upgrade the container image for the app from tag version 1.0 to 1.1, run the following command:
 
 ```
 kubectl set image deploy wildfly wildfly=<acrLoginServer>/yoichikawasaki/wildfly-ticketmonster-ha:1.1 --record
 ```
-### Option2: Update the app by running "kubectl apply":
+### Option2: Update the app by running "kubectl apply"
 
 Suppose you upgrade the container image for the app from tag version 1.0 to 1.1, Replace the container image part of kubernetes/wildfly-server.yaml file with the container name:tag:
 
@@ -109,3 +114,7 @@ Suppose you want to get a shell to the running Container in a Pod named wildfly-
 $ kubectl exec -it wildfly-1364584080-01z1x -- /bin/bash
 ```
 See also [Get a Shell to a Running Container](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) to lean more about the command.
+
+
+---
+[Top](../README.md)

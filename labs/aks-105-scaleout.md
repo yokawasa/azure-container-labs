@@ -70,4 +70,4 @@ aks-nodepool1-40291275-3   Ready     agent     21m       v1.11.1
 
 
 ---
-[Top](../README.md) | [Back](aks-104-ingress.md) | [Next](aks-106-statefulsets.md)
+[Top](../README.md) | [Back](aks-104-ingress-top.md) | [Next](aks-106-statefulsets.md)

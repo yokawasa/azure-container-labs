@@ -23,8 +23,8 @@ Azure Container Labs - AKS, App Service for Container, Service Fabric, and more
 
 ### K8S/AKS Helper Contents
 - [kubectl for managing Kubernetes app](labs/helper-k8s-kubectl.md)
-- Azure CLI for managing AKS Cluster
-- Helm CLI Commands
+- [Azure CLI for managing AKS Cluster](labs/helper-aks-azcli.md)
+- [Helm CLI Commands](labs/helper-helm.md)
 - [Uselful Tools](labs/helper-k8s-useful-tools.md)
 
 ---

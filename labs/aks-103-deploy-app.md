@@ -239,4 +239,4 @@ echo $EXTERNALIP
 ![](../assets/browse-app.png)
 
 ---
-[Top](../README.md) | [Back](aks-102-acr.md) | [Next](aks-104-ingress.md)
+[Top](../README.md) | [Back](aks-102-acr.md) | [Next](aks-104-ingress-top.md)
