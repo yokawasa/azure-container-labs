@@ -109,3 +109,33 @@ Flags:
 
 Use "kubespy [command] --help" for more information about a command.
 ```
+
+## hadolint
+[hadolint](https://github.com/hadolint/hadolint) is a smarter Dockerfile linter that helps you build best practice Docker images.
+
+How to install
+```sh
+# Directly download binary
+$ curl -L -O https://github.com/hadolint/hadolint/releases/download/v1.15.0/hadolint-Darwin-x86_64
+$ ln -s hadolint-Darwin-x86_64 hadolint
+
+# Install with brew on Mac
+$ brew install hadolint
+
+# Use docker container
+$ docker pull hadolint/hadolint
+```
+
+How to Use 
+```sh
+$ cd azure-container-labs/apps/vote/azure-vote
+# hadolint <Dockerfile>
+$ hadolint Dockerfile
+
+Dockerfile:3 DL3008 Pin versions in apt get install. Instead of `apt-get install <package>` use `apt-get install <package>=<version>`
+Dockerfile:3 DL3009 Delete the apt-get lists after installing something
+Dockerfile:3 DL3013 Pin versions in pip. Instead of `pip install <package>` use `pip install <package>==<version>`
+Dockerfile:3 DL3015 Avoid additional packages by specifying `--no-install-recommends`
+Dockerfile:7 DL3020 Use COPY instead of ADD for files and folders
+```
+For more detail, see [hadolint/hadolint](https://github.com/hadolint/hadolint)
