@@ -20,8 +20,11 @@ If your environment supports these two APIs, then you may use `automatic sidecar
 
 ## Deploy sample app - Bookinfo
 ### Option1 - manual sidecar injection.
+To create Data Plane, you can deploy `Sidecar` like this
 ```
 $ kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)
+# <another way>
+# $ istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml | kubectl apply -f -
 
 service "details" created
 deployment "details-v1" created
@@ -36,12 +39,10 @@ deployment "productpage-v1" created
 ```
 
 ### Option2 - automatic  sidecar injection.
-If you are using a cluster with automatic sidecar injection enabled, label the default namespace with istio-injection=enabled
+If you are using a cluster with automatic sidecar injection enabled, you can automatically deploy Envoy proxy as `Sidecar` to Pods in specific namespace. Here you configure to enable automatic sidecar injection in `default` namespace by labeling `default` namespace with `istio-injection=enabled`
 
 ```
 $ kubectl label namespace default istio-injection=enabled
-
-namespace "default" labeled
 ```
 
 Then simply deploy the services using kubectl
