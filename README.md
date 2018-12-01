@@ -29,9 +29,9 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 
 ---
 ## App Services for Container Labs
-1.   [Setup Azure Database for MySQL](labs/webapp-101-azdb4mysql.md)
-2.   [Build and push Docker image to Container Registery](labs/webapp-102-acr.md)
-3.   [Setup Web App and deploy the application to Web App](labs/webapp-103-deploy-app.md)
+101. [Setup Azure Database for MySQL](labs/webapp-101-azdb4mysql.md)
+102. [Build and push Docker image to Container Registery](labs/webapp-102-acr.md)
+103. [Setup Web App and deploy the application to Web App](labs/webapp-103-deploy-app.md)
 
 ---
 ## Service Fabric Labs
