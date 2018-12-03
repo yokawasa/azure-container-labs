@@ -25,7 +25,7 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 - [Azure CLI for managing AKS & ACR](labs/helper-aks-azcli.md)
 - [Helm CLI Commands](labs/helper-helm.md)
 - [Contailers/K8S Uselful Tools](labs/helper-k8s-useful-tools.md)
-- [Docker Tips](labs/helper-tocker-tips.md)
+- [Docker Tips](labs/helper-docker-tips.md)
 
 ---
 ## App Services for Container Labs
