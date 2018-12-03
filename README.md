@@ -34,8 +34,10 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 103. [Setup Web App and deploy the application to Web App](labs/webapp-103-deploy-app.md)
 
 ---
+## Azure Container Instances (ACI) Labs
+- [Quickstart ACI](labs/aci-quickstart.md)
+
+---
 ## Service Fabric Labs
 - [Quickstart Service Fabric Linux Container](https://gist.github.com/yokawasa/329a24ae30c855a475f4e58c9f654140)
 - [Quickstart Service Fabric Mesh](https://gist.github.com/yokawasa/7aae70ef5ac8e7f23fd75cb73d9f161b)
-
-
