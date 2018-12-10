@@ -2,16 +2,19 @@
 
 ## Download Istio release package
 
-In this workshop, we use `istio-1.0.2`. Run the following command to download `istio-1.0.2` package
+In this workshop, we use `istio-1.0.4`. Run the following command to download `istio-1.0.4` package
 
 ```sh
 $ curl -L https://raw.githubusercontent.com/yokawasa/azure-container-labs/master/scripts/istio-helpers/get-istio | sh -
-#   -> istio-1.0.2
 ```
+> [NOTE] If you want to download the latest Istio, run the following:
+> ```sh
+> curl -L https://git.io/getLatestIstio | sh -
+> ```
 
-Once you download the package, change directory to istio-1.0.2
+Once you download the package, change directory to istio-1.X.X
 ```sh
-cd istio-1.0.2
+cd istio-1.X.X
 ```
 ## Install Istio Core Components
 
@@ -75,12 +78,12 @@ Install Istio with addons using Helm:
 $ helm install install/kubernetes/helm/istio --name istio --namespace istio-system \
   --set prometheus.enabled=true \
   --set tracing.enabled=true \
-  --set servicegraph.enabled=true \
-  --set grafana.enabled=true  
+  --set grafana.enabled=true \
+  --set kiali.enabled=true
 ```
 
-In this workshop, we use prometheus and grafana for viewing the metrics from Istio, and Jaeger for tracing, and Service graph.
-By default, Istio is installed with parameters like `Prometheus:enabled`, `grafana:disabled`, `Jaeger:disabled`,  `servicegraph:disabled`, therefore, these parameters need to be enabled like above. 
+In this workshop, we use `prometheus` and `grafana` for viewing the metrics from Istio, and `Jaeger` for tracing, and `Kiali` for visualization.
+By default, Istio is installed with parameters like `Prometheus:enabled`, `grafana:disabled`, `Jaeger:disabled`, `Kiali:diabled`, therefore, these parameters need to be enabled like above. 
 
 For more detail, see [Install with Helm and Tiller via helm install](https://istio.io/docs/setup/kubernetes/helm-install/#option-2-install-with-helm-and-tiller-via-helm-install).
 
@@ -89,6 +92,36 @@ For more detail, see [Install with Helm and Tiller via helm install](https://ist
 ```sh
 $ kubectl apply -f install/kubernetes/helm/istio/templates/crds.yaml
 $ kubectl apply -f install/kubernetes/istio-demo.yaml
+```
+### [Supplements] CRDs for Istio
+
+Check how many of CRDs installed for Istio with `kubectl get crd` command. Istio consists of bunch of CRDs!
+```sh
+$ kubectl get crd | wc -l
+51
+
+$ kubectl get crd
+
+NAME                                    AGE
+adapters.config.istio.io                14m
+apikeys.config.istio.io                 14m
+attributemanifests.config.istio.io      14m
+authorizations.config.istio.io          14m
+bypasses.config.istio.io                14m
+checknothings.config.istio.io           14m
+circonuses.config.istio.io              14m
+deniers.config.istio.io                 14m
+destinationrules.networking.istio.io    15m
+edges.config.istio.io                   14m
+envoyfilters.networking.istio.io        15m
+fluentds.config.istio.io                14m
+gateways.networking.istio.io            15m
+handlers.config.istio.io                14m
+httpapispecbindings.config.istio.io     15m
+httpapispecs.config.istio.io            15m
+instances.config.istio.io               14m
+kubernetesenvs.config.istio.io          14m
+...
 ```
 
 ## Check Pods & Services of Istio
@@ -110,7 +143,7 @@ istio-statsd-prom-bridge-7f44bb5ddb-brscl   1/1       Running   0          1d
 istio-telemetry-5fc7ccc5b7-ppgrp            2/2       Running   0          1d
 istio-tracing-ff94688bb-f56hv               1/1       Running   0          1d
 prometheus-84bd4b9796-trrg9                 1/1       Running   0          1d
-servicegraph-c44769bc6-z5p9c                1/1       Running   0          1d
+kiali-5fbd6ffb-r5pq6                        1/1       Running   0          1d
 ```
 
 
@@ -133,7 +166,6 @@ jaeger-agent               ClusterIP      None           <none>           5775/U
 jaeger-collector           ClusterIP      10.0.207.231   <none>           14267/TCP,14268/TCP                                                                                         9m
 jaeger-query               ClusterIP      10.0.179.186   <none>           16686/TCP                                                                                                   9m
 prometheus                 ClusterIP      10.0.196.72    <none>           9090/TCP                                                                                                    11h
-servicegraph               ClusterIP      10.0.83.19     <none>           8088/TCP                                                                                                    9m
 tracing                    ClusterIP      10.0.254.69    <none>           80/TCP                                                                                                      9m
 zipkin                     ClusterIP      10.0.181.238   <none>           9411/TCP                                                                                                    9m
 ```
@@ -156,15 +188,6 @@ $ kubectl -n istio-system port-forward \
 $ curl http://localhost:9090
 ```
 
-To port-forward and access `ServiceGraph`, run the follwoing commands:
-```
-$ kubectl -n istio-system port-forward \
-  $(kubectl -n istio-system get pod -l app=servicegraph -o jsonpath='{.items[0].metadata.name}') \
-  8088:8088
-
-$ curl http://localhost:8088/dotviz
-```
-
 To port-forward and access `Jaeger`, run the follwoing commands:
 ```
 $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686
@@ -172,6 +195,12 @@ $ kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=
 $ curl http://localhost:16686
 ```
 
+To port-forward and access `Kiali`, run the follwoing commands (user:pass=`admin`:`admin` by default):
+```
+$ kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
+
+$ curl http://localhost:20001
+```
 
 
 ## Expose and access Istio endpoints (if you can't access the Istio endpoint by forwarding local ports to a Pod)
@@ -187,11 +216,11 @@ $ kubectl -n istio-system edit svc prometheus
 # for Grafana
 $ kubectl -n istio-system edit svc grafana
 
-# for ServiceGraph
-$ kubectl -n istio-system edit svc servicegraph
-
 # for Jaeger
 $ kubectl -n istio-system edit svc jaeger-query
+
+# for Kiali
+$ kubectl -n istio-system edit svc kiali
 ```
 
 ![](../assets/edit-isito-service.png)

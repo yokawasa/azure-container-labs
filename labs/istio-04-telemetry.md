@@ -1,4 +1,4 @@
-# Istio04: Observability - Telemetry Check
+# Istio04: Observability - Telemetry & Visualization
 
 ## Generate Load on Bookinfo
 Let's generate HTTP traffic against the BookInfo application, so we can see interesting telemetry. Grab the ingress gateway port number and host:
@@ -31,14 +31,15 @@ If you have not already exposed prometheus, please follow [Module Istio01](istio
 
 ![](../assets/Prometheus.png)
 
-
-## Service Graph
-
-If you have not already exposed servicegraph, please follow [Module Istio01](istio-01-setup.md). Once you have exposed ServiceGraph, please access to its URI. Make sure to access to servicegraphURI/`/dotviz` and you will see the generated service graph.
-
-![](../assets/servicegraph.png)
-
 For a more interactive graph, navigate to `force/forcegraph.html`.
+
+## Kiali
+
+If you have not already exposed kiali, please follow [Module Istio01](istio-01-setup.md). Once you have exposed kiali, please access to its dashboard. You can then navigate to the `Kiali Dashboard`.
+
+![](../assets/kiali.png)
+
+Go to [official Kiali site](https://www.kiali.io) for more detail
 
 ---
 [Istio Top](aks-202-istio-top.md)| [Back](istio-03-ingress-gateway.md) | [Next](istio-05-distributed-tracing.md)

@@ -13,7 +13,7 @@
 # This is the latest release candidate (matches ../istio.VERSION after basic
 # sanity checks)
 
-ISTIO_VERSIO="1.0.2"
+ISTIO_VERSIO="1.0.4"
 
 OS="$(uname)"
 if [ "x${OS}" = "xDarwin" ] ; then
