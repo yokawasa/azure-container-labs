@@ -3,20 +3,20 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 
 ---
 ## Kubernetes (AKS) Labs
-- 100. [Setup Lab environment](labs/aks-100-setup-env.md)
-- 101. [Create Azure Kubernetes Services(AKS) Cluster](labs/aks-101-create-aks-cluster.md)
-- 102. [Azure Container Resgistry (ACR) and ACR Build](labs/aks-102-acr.md)
-- 103. [Deploy application to AKS cluster](labs/aks-103-deploy-app.md)
-- 104. [Ingress Controller](labs/aks-104-ingress-top.md)
-- 105. [Scale out Pods and Nodes](labs/aks-105-scaleout.md)
-- 106. [Deploy replicated MySQL topology with Stateful Sets](labs/aks-106-statefulsets.md)
-- 107. [Monitoring and logging](labs/aks-107-monitoring-top.md)
-- 108. [Helm and Helm Charts](labs/aks-108-helm.md)
-- 109. CI/CD Automation
-- 201. [Open Service Broker Azure (OSBA)](labs/aks-201-osba.md)
-- 202. [Service Mesh using Istio](labs/aks-202-istio-top.md)
-- 203. Autoscale (HPA + CA)
-- 204. RBAC and AAD
+- 100 [Setup Lab environment](labs/aks-100-setup-env.md)
+- 101  [Create Azure Kubernetes Services(AKS) Cluster](labs/aks-101-create-aks-cluster.md)
+- 102 [Azure Container Resgistry (ACR) and ACR Build](labs/aks-102-acr.md)
+- 103 [Deploy application to AKS cluster](labs/aks-103-deploy-app.md)
+- 104 [Ingress Controller](labs/aks-104-ingress-top.md)
+- 105 [Scale out Pods and Nodes](labs/aks-105-scaleout.md)
+- 106 [Deploy replicated MySQL topology with Stateful Sets](labs/aks-106-statefulsets.md)
+- 107 [Monitoring and logging](labs/aks-107-monitoring-top.md)
+- 108 [Helm and Helm Charts](labs/aks-108-helm.md)
+- 109 CI/CD Automation
+- 201 [Open Service Broker Azure (OSBA)](labs/aks-201-osba.md)
+- 202 [Service Mesh using Istio](labs/aks-202-istio-top.md)
+- 203 Autoscale (HPA + CA)
+- 204 RBAC and AAD
 
 ### Helper Contents
 - [kubectl for managing Kubernetes app](labs/helper-k8s-kubectl.md)
@@ -27,9 +27,9 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 
 ---
 ## Web App for Containers Labs
-- 101. [Setup Azure Database for MySQL](labs/webapp-101-azdb4mysql.md)
-- 102. [Build and push Docker image to Container Registery](labs/webapp-102-acr.md)
-- 103. [Setup Web App and deploy the application to Web App](labs/webapp-103-deploy-app.md)
+- 101 [Setup Azure Database for MySQL](labs/webapp-101-azdb4mysql.md)
+- 102 [Build and push Docker image to Container Registery](labs/webapp-102-acr.md)
+- 103 [Setup Web App and deploy the application to Web App](labs/webapp-103-deploy-app.md)
 
 ---
 ## Azure Container Instances (ACI) Labs
