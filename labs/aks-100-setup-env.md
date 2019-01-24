@@ -40,7 +40,7 @@ $ az account set -s 'Visual Studio Premium with MSDN'
 
 ## Register Azure Resource Providers
 
-Check the following Azure resources are already registered:
+Check the following Azure resource providers are already registered:
 ```sh
 # Microsoft.Network
 $ az provider list --query "[?contains(namespace,'Microsoft.Network')]" -o table
@@ -70,12 +70,19 @@ Namespace                   RegistrationState
 Microsoft.ContainerService  Registered
 ```
 
-If you find NOT registered resources with your subscription, execute the following commands to register:
+If the provider shows as `NotRegistered`, register the provider using commands as shown in the following example:
 
 ```sh
+# if Microsoft.Network is NotRegistered
 $ az provider register -n Microsoft.Network
+
+# if Microsoft.Storage is NotRegistered
 $ az provider register -n Microsoft.Storage
+
+# if Microsoft.Compute is NotRegistered
 $ az provider register -n Microsoft.Compute
+
+# if Microsoft.ContainerService is NotRegistered
 $ az provider register -n Microsoft.ContainerService
 ```
 

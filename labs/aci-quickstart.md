@@ -1,6 +1,18 @@
 # Quickstart Azure Container Instances (ACI) - Running API in ACI
 
 
+## Regsiter ACI service provider
+
+Check the status of the ACI provider
+```sh
+az provider list --query "[?contains(namespace,'Microsoft.ContainerInstance')]" -o table
+```
+
+If the provider shows as NotRegistered, register the provider as shown in the following example:
+```sh
+az provider register --namespace Microsoft.ContainerInstance
+```
+
 ## Deploy API Container In ACI
 
 First create resource group for this lab. Please note that `region` needs to be the following ACI available regions:
