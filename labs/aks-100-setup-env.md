@@ -40,7 +40,37 @@ $ az account set -s 'Visual Studio Premium with MSDN'
 
 ## Register Azure Resource Providers
 
-Execute the following commands which are needed in case that it's the first time to manage Azrue resources such as Network, Storage, Compute and ContainerSerivces with your subscription:
+Check the following Azure resources are already registered:
+```sh
+# Microsoft.Network
+$ az provider list --query "[?contains(namespace,'Microsoft.Network')]" -o table
+
+Namespace          RegistrationState
+-----------------  -------------------
+Microsoft.Network  Registered
+
+# Microsoft.Storage
+$ az provider list --query "[?contains(namespace,'Microsoft.Storage')]" -o table
+
+Namespace          RegistrationState
+-----------------  -------------------
+Microsoft.Storage  Registered
+
+# Microsoft.Compute
+$ az provider list --query "[?contains(namespace,'Microsoft.Compute')]" -o table
+
+Namespace          RegistrationState
+-----------------  -------------------
+Microsoft.Compute  Registered
+
+# Microsoft.ContainerService
+$ az provider list --query "[?contains(namespace,'Microsoft.ContainerService')]" -o table
+Namespace                   RegistrationState
+--------------------------  -------------------
+Microsoft.ContainerService  Registered
+```
+
+If you find NOT registered resources with your subscription, execute the following commands to register:
 
 ```sh
 $ az provider register -n Microsoft.Network
