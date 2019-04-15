@@ -1,5 +1,17 @@
 #  Kubernetes Operation with Kubectl
 
+Table of Contents
+<!-- TOC -->
+- [Kubernetes Operation with Kubectl](#kubernetes-operation-with-kubectl)
+  - [Show details of specific resources with 'kubectl describe'](#show-details-of-specific-resources-with-kubectl-describe)
+  - [Dump cluster info](#dump-cluster-info)
+  - [Scale the number of Pods](#scale-the-number-of-pods)
+  - [Update the kubernete app](#update-the-kubernete-app)
+    - [Option1: Update the app by running "kubectl set image"](#option1-update-the-app-by-running-%22kubectl-set-image%22)
+    - [Option2: Update the app by running "kubectl apply"](#option2-update-the-app-by-running-%22kubectl-apply%22)
+  - [Get a shell to the running Container](#get-a-shell-to-the-running-container)
+
+
 ## Show details of specific resources with 'kubectl describe'
 
 ```sh

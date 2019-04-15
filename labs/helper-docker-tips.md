@@ -1,5 +1,14 @@
 # Helper: Docker Tips
 
+Table of Contents
+<!-- TOC -->
+- [Helper: Docker Tips](#helper-docker-tips)
+  - [docker command: attach and exec](#docker-command-attach-and-exec)
+    - [docker attach](#docker-attach)
+    - [docker exec](#docker-exec)
+  - [docker command: p option and EXPONSE in Dockerfile](#docker-command-p-option-and-exponse-in-dockerfile)
+  - [Dockerfile: ENTORYPOINT and CMD](#dockerfile-entorypoint-and-cmd)
+
 ## docker command: attach and exec
 ### docker attach
 As described in [docker attach](https://docs.docker.com/engine/reference/commandline/attach/) in docker CLI reference page, `docker attach` attaches your terminal’s standard input, output, and error (or any combination of the three) to a running container using the container’s ID or name. This allows you to view its ongoing output or to control it interactively, as though the commands were running directly in your terminal.
@@ -83,5 +92,6 @@ docker run -it -p 7100-7120:7100-7120/tcp
 ## Dockerfile: ENTORYPOINT and CMD
 
 - [Docker ENTRYPOINT & CMD: Dockerfile best practices](https://medium.freecodecamp.org/docker-entrypoint-cmd-dockerfile-best-practices-abc591c30e21)
+
 ---
 [Top](../README.md)

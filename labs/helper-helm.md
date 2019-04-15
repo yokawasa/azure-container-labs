@@ -1,5 +1,12 @@
 # Helper: Helm CLI Commands
 
+Table of Contents
+<!-- TOC -->
+[Helper: Helm CLI Commands](#helper-helm-cli-commands)
+- [Helper: Helm CLI Commands](#helper-helm-cli-commands)
+  - [Delete package (Optional)](#delete-package-optional)
+  - [Install remote charts](#install-remote-charts)
+
 ## Delete package (Optional)
 
 ```sh

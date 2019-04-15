@@ -7,22 +7,24 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 - 101  [Create Azure Kubernetes Services(AKS) Cluster](labs/aks-101-create-aks-cluster.md)
 - 102 [Azure Container Resgistry (ACR) and ACR Build](labs/aks-102-acr.md)
 - 103 [Deploy application to AKS cluster](labs/aks-103-deploy-app.md)
-- 104 [Ingress Controller](labs/aks-104-ingress-top.md)
+- 104 [Ingress -  HTTP application routin](labs/aks-104-ingress.md)
 - 105 [Scale out Pods and Nodes](labs/aks-105-scaleout.md)
 - 106 [Deploy replicated MySQL topology with Stateful Sets](labs/aks-106-statefulsets.md)
-- 107 [Monitoring and logging](labs/aks-107-monitoring-top.md)
+- 107 [Azure Monitor for Container](labs/aks-107-container-insights.md)
 - 108 [Helm and Helm Charts](labs/aks-108-helm.md)
-- 109 CI/CD Automation
+- 109 CI with Azure DevOps
 - 201 [Open Service Broker Azure (OSBA)](labs/aks-201-osba.md)
 - 202 [Service Mesh using Istio](labs/aks-202-istio-top.md)
-- 203 Autoscale (HPA + CA)
-- 204 RBAC and AAD
+- 203 Autoscale on AKS (HPA + CA)
+- 204 Application Gateway ingress controller 
+- 205 Azure AD integration AKS
+- 206 GPU-enabled node
 
 ### Helper Contents
-- [kubectl for managing Kubernetes app](labs/helper-k8s-kubectl.md)
+- [kubectl for managing k8s](labs/helper-k8s-kubectl.md)
 - [Azure CLI for managing AKS & ACR](labs/helper-aks-azcli.md)
 - [Helm CLI Commands](labs/helper-helm.md)
-- [Contailers/K8S Uselful Tools](labs/helper-k8s-useful-tools.md)
+- [Uselful Tools](labs/helper-k8s-useful-tools.md)
 - [Docker Tips](labs/helper-docker-tips.md)
 
 ---
