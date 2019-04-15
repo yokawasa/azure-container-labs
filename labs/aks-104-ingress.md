@@ -4,7 +4,6 @@
 - [AKS104: Ingress Controllers - HTTP application routing](#aks104-ingress-controllers---http-application-routing)
   - [Preparations](#preparations)
   - [Setup HTTP Application Routing](#setup-http-application-routing)
-  - [2. Application Gateway Ingress Controller](#2-application-gateway-ingress-controller)
   - [Extra labs - NGINX Ingress Controller](#extra-labs---nginx-ingress-controller)
 
 An ingress controller is a piece of software that provides reverse proxy, configurable traffic routing, and TLS termination for Kubernetes services. Kubernetes ingress resources are used to configure the ingress rules and routes for individual Kubernetes services. Using an ingress controller and ingress rules, a single IP address can be used to route traffic to multiple services in a Kubernetes cluster. 
@@ -169,13 +168,6 @@ azure-vote     vote.f7418ec8af894af8a2ab.eastus.aksapp.io                     80
 Finally, you can access the app with the URL - `http://vote.<CLUSTER_SPECIFIC_DNS_ZONE>`
 
 ![](../assets/browse-app-ingress.png)
-
-
-## 2. Application Gateway Ingress Controller 
-
-In this section, you deploy the Application Gateway Ingress controller in your AKS cluster and make your app accessible via the the Ingress controller. Please make sure you have already done [preparations](#preparations) section above.
-
-- https://github.com/Azure/application-gateway-kubernetes-ingress
 
 
 ## Extra labs - NGINX Ingress Controller
