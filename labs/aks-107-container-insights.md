@@ -1,5 +1,11 @@
 # AKS107: Azure Monitor for Containers
 
+<!-- TOC -->
+- [AKS107: Azure Monitor for Containers](#aks107-azure-monitor-for-containers)
+  - [Enable monitoring using Azure CLI](#enable-monitoring-using-azure-cli)
+  - [Monitor AKS with Azure Monitor for Container](#monitor-aks-with-azure-monitor-for-container)
+
+
 ## Enable monitoring using Azure CLI
 
 ```sh

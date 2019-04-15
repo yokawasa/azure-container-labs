@@ -1,6 +1,5 @@
 # AKS103: Deploy the Voting App to AKS Cluster
 
-Table of Content
 <!-- TOC -->
 - [AKS103: Deploy the Voting App to AKS Cluster](#aks103-deploy-the-voting-app-to-aks-cluster)
   - [Clone the Github repo (only if you haven't done yet)](#clone-the-github-repo-only-if-you-havent-done-yet)

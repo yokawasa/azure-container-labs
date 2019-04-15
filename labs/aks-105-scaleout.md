@@ -1,6 +1,5 @@
 # AKS105: Manual Scale out Pods and Nodes
 
-Table of Content
 <!-- TOC -->
 - [AKS105: Manual Scale out Pods and Nodes](#aks105-manual-scale-out-pods-and-nodes)
   - [Manual Scale the number of Pods:](#manual-scale-the-number-of-pods)

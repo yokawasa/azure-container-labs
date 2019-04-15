@@ -1,5 +1,12 @@
 # Istio04: Observability - Telemetry & Visualization
 
+<!-- TOC -->
+- [Istio04: Observability - Telemetry & Visualization](#istio04-observability---telemetry--visualization)
+  - [Generate Load on Bookinfo](#generate-load-on-bookinfo)
+  - [Grafana](#grafana)
+  - [Prometheus](#prometheus)
+  - [Kiali](#kiali)
+
 ## Generate Load on Bookinfo
 Let's generate HTTP traffic against the BookInfo application, so we can see interesting telemetry. Grab the ingress gateway port number and host:
 

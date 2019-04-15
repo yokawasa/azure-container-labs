@@ -1,7 +1,6 @@
 # Manage AKS and ACR using azure-cli
 
 <!-- TOC -->
-
 - [Manage AKS and ACR using azure-cli](#manage-aks-and-acr-using-azure-cli)
   - [Manage AKS (Azure Kubernetes Service)](#manage-aks-azure-kubernetes-service)
     - [Get the list of AKS cluster](#get-the-list-of-aks-cluster)

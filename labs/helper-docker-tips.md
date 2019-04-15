@@ -1,6 +1,5 @@
 # Helper: Docker Tips
 
-Table of Contents
 <!-- TOC -->
 - [Helper: Docker Tips](#helper-docker-tips)
   - [docker command: attach and exec](#docker-command-attach-and-exec)

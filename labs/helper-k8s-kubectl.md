@@ -1,6 +1,5 @@
 #  Kubernetes Operation with Kubectl
 
-Table of Contents
 <!-- TOC -->
 - [Kubernetes Operation with Kubectl](#kubernetes-operation-with-kubectl)
   - [Show details of specific resources with 'kubectl describe'](#show-details-of-specific-resources-with-kubectl-describe)

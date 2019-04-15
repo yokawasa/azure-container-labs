@@ -1,6 +1,5 @@
 # AKS102: Azure Container Registry (ACR) and ACR Build
 
-Table of Contents
 <!-- TOC -->
 - [AKS102: Azure Container Registry (ACR) and ACR Build](#aks102-azure-container-registry-acr-and-acr-build)
   - [Create Azure Container Registry instance](#create-azure-container-registry-instance)

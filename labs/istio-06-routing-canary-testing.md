@@ -1,5 +1,15 @@
 # Istio06: Traffic Control - Request Routing and Canary Testing
 
+<!-- TOC -->
+- [Istio06: Traffic Control - Request Routing and Canary Testing](#istio06-traffic-control---request-routing-and-canary-testing)
+  - [Set default destination rule](#set-default-destination-rule)
+  - [Configure the default route for all services to V1](#configure-the-default-route-for-all-services-to-v1)
+  - [Canary Testing - Traffic Shifting](#canary-testing---traffic-shifting)
+    - [Reset Rules (all traffics to v1)](#reset-rules-all-traffics-to-v1)
+    - [Canary testing w/ 50 percent load](#canary-testing-w-50-percent-load)
+    - [Shift 100 percent to v3](#shift-100-percent-to-v3)
+
+
 ## Set default destination rule
 Before you can use Istio to control the Bookinfo version routing, you need to define the available versions, called subsets, in destination rules. This defaut rule configure to call reviews service round robin between v1, v2, or v3 When we load the /productpage in the browser multiple times.
 
@@ -69,7 +79,7 @@ $ kubectl apply -f samples/bookinfo/networking/virtual-service-all-v1.yaml
 ```
 Again, all traffic will be routed to v1 of all the services.
 
-### Canary testing w/50% load
+### Canary testing w/ 50 percent load
 
 To start canary testing, let's begin by transferring 50% of the traffic from reviews:v1 to reviews:v3 with the following command:
 
@@ -106,7 +116,7 @@ spec:
 Now, if we reload the /productpage in your browser several times, you should now see red-colored star ratings approximately 50% of the time.
 
 
-### Shift 100% to v3
+### Shift 100 percent to v3
 
 When version v3 of the reviews service is considered stable, we can route 100% of the traffic to reviews:v3:
 
@@ -134,7 +144,6 @@ spec:
 ```
 
 Now, if we reload the /productpage in your browser several times, you should now see red-colored star ratings 100% of the time.
-
 
 ---
 [Istio Top](aks-202-istio-top.md)| [Back](istio-05-distributed-tracing.md) | [Next](istio-07-circuit-breaking.md)

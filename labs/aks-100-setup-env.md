@@ -1,6 +1,5 @@
 # AKS100: Setup Lab environment
 
-Table of Contents
 <!-- TOC -->
 - [AKS100: Setup Lab environment](#aks100-setup-lab-environment)
   - [Open Azure Cloud Shell](#open-azure-cloud-shell)

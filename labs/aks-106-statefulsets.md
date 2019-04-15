@@ -1,6 +1,5 @@
 # AKS106: Deploy Replicated MySQL Topology with Stateful Sets
 
-Table of Content
 <!-- TOC -->
 - [AKS106: Deploy Replicated MySQL Topology with Stateful Sets](#aks106-deploy-replicated-mysql-topology-with-stateful-sets)
   - [Deploy HA MySQL](#deploy-ha-mysql)

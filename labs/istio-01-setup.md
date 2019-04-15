@@ -1,5 +1,17 @@
 # Istio01: Setup Istio
 
+<!-- TOC -->
+- [Istio01: Setup Istio](#istio01-setup-istio)
+  - [Download Istio release package](#download-istio-release-package)
+  - [Install Istio Core Components](#install-istio-core-components)
+    - [(a) Install Istio with Helm](#a-install-istio-with-helm)
+    - [(b) Install Istio without Helm (by applying YAMLs)](#b-install-istio-without-helm-by-applying-yamls)
+    - [[Supplements] CRDs for Istio](#supplements-crds-for-istio)
+  - [Check Pods & Services of Istio](#check-pods--services-of-istio)
+  - [Access Istio endpoints (Forwarding local ports to a Pod.)](#access-istio-endpoints-forwarding-local-ports-to-a-pod)
+  - [Expose and access Istio endpoints (if you can't access the Istio endpoint by forwarding local ports to a Pod)](#expose-and-access-istio-endpoints-if-you-cant-access-the-istio-endpoint-by-forwarding-local-ports-to-a-pod)
+
+
 ## Download Istio release package
 
 In this workshop, we use `istio-1.0.4`. Run the following command to download `istio-1.0.4` package

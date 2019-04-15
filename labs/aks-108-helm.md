@@ -1,6 +1,5 @@
 # AKS108: Deploy application to AKS with Helm and Helm Charts
 
-Table of Contents
 <!-- TOC -->
 - [AKS108: Deploy application to AKS with Helm and Helm Charts](#aks108-deploy-application-to-aks-with-helm-and-helm-charts)
   - [Delete the existing Voting app on the cluster](#delete-the-existing-voting-app-on-the-cluster)

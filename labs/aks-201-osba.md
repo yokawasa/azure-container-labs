@@ -1,6 +1,5 @@
 # AKS201 - Provision, bind and consume Azure Database for MySQL using OSBA
 
-Table of Contents
 <!-- TOC -->
 - [AKS201 - Provision, bind and consume Azure Database for MySQL using OSBA](#aks201---provision-bind-and-consume-azure-database-for-mysql-using-osba)
   - [Install Open Service Broker for Azure](#install-open-service-broker-for-azure)

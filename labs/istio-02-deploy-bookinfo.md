@@ -1,5 +1,14 @@
 # Istio02: Deploy Sample App - BookInfo
 
+<!-- TOC -->
+- [Istio02: Deploy Sample App - BookInfo](#istio02-deploy-sample-app---bookinfo)
+  - [Check if your environment support automatic sidecar injection](#check-if-your-environment-support-automatic-sidecar-injection)
+  - [Deploy sample app - Bookinfo](#deploy-sample-app---bookinfo)
+    - [Option1 - manual sidecar injection.](#option1---manual-sidecar-injection)
+    - [Option2 - automatic sidecar injection.](#option2---automatic-sidecar-injection)
+  - [Confirm all svc and pods are running](#confirm-all-svc-and-pods-are-running)
+
+
 ![](../assets/istio-bookinfo-app.png)
 
 ## Check if  your environment support automatic sidecar injection
