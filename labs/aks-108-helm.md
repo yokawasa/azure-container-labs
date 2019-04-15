@@ -1,4 +1,16 @@
-# Module AKS108: Deploy the Voting App to AKS Cluster with Helm and Helm Charts
+# AKS108: Deploy application to AKS with Helm and Helm Charts
+
+Table of Contents
+<!-- TOC -->
+- [AKS108: Deploy application to AKS with Helm and Helm Charts](#aks108-deploy-application-to-aks-with-helm-and-helm-charts)
+  - [Delete the existing Voting app on the cluster](#delete-the-existing-voting-app-on-the-cluster)
+  - [Install Helm CLI (only if not installed yet)](#install-helm-cli-only-if-not-installed-yet)
+  - [Create a service account (only for RBAC-enabled AKS cluster)](#create-a-service-account-only-for-rbac-enabled-aks-cluster)
+  - [Install Helm Chart](#install-helm-chart)
+    - [Check default values](#check-default-values)
+    - [Verification of the chart](#verification-of-the-chart)
+    - [Install Helm chart with your parameter values](#install-helm-chart-with-your-parameter-values)
+
 
 In this module, you will deploy the voting app (below) to the AKS cluster using Helm and Helm Chart, not applying YAML files one by one.  
 
@@ -238,4 +250,4 @@ Finally, you can access the app with the URL - `http://vote.<CLUSTER_SPECIFIC_DN
 ![](../assets/browse-app-ingress.png)
 
 ---
-[Top](../README.md) | [Back](aks-107-monitoring-logging.md) | Next(comming soon)
+[Top](../README.md) | [Back](aks-107-container-insights.md) | Next (coming soon)

@@ -1,4 +1,10 @@
-# Module AKS105: Manual Scale out Pods and Nodes
+# AKS105: Manual Scale out Pods and Nodes
+
+Table of Content
+<!-- TOC -->
+- [AKS105: Manual Scale out Pods and Nodes](#aks105-manual-scale-out-pods-and-nodes)
+  - [Manual Scale the number of Pods:](#manual-scale-the-number-of-pods)
+  - [Manual Scale the number of Nodes:](#manual-scale-the-number-of-nodes)
 
 
 ## Manual Scale the number of Pods:
@@ -37,7 +43,7 @@ NAME                     DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 azure-voting-app-front   3         3         3            3           2h
 ```
 
-## [Manual] Scale the number of Nodes:
+## Manual Scale the number of Nodes:
 
 First of all, check the # of node by running the following command:
 
@@ -70,4 +76,4 @@ aks-nodepool1-40291275-3   Ready     agent     21m       v1.11.1
 
 
 ---
-[Top](../README.md) | [Back](aks-104-ingress-top.md) | [Next](aks-106-statefulsets.md)
+[Top](../README.md) | [Back](aks-104-ingress.md) | [Next](aks-106-statefulsets.md)

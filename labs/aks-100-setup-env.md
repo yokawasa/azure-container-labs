@@ -1,5 +1,12 @@
 # AKS100: Setup Lab environment
 
+Table of Contents
+<!-- TOC -->
+- [AKS100: Setup Lab environment](#aks100-setup-lab-environment)
+  - [Open Azure Cloud Shell](#open-azure-cloud-shell)
+  - [Verify Subscription](#verify-subscription)
+  - [Register Azure Resource Providers](#register-azure-resource-providers)
+
 ## Open Azure Cloud Shell
 
 In this hands-on labs, you're running this workthrough on [Azure Cloud Shell Bash](https://docs.microsoft.com/en-us/azure/cloud-shell/overview).

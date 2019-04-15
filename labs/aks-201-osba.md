@@ -1,5 +1,26 @@
 # AKS201 - Provision, bind and consume Azure Database for MySQL using OSBA
 
+Table of Contents
+<!-- TOC -->
+- [AKS201 - Provision, bind and consume Azure Database for MySQL using OSBA](#aks201---provision-bind-and-consume-azure-database-for-mysql-using-osba)
+  - [Install Open Service Broker for Azure](#install-open-service-broker-for-azure)
+    - [Install Helm Client and Tiller (only if not yet installed)](#install-helm-client-and-tiller-only-if-not-yet-installed)
+    - [Install Service Catalog using Helm Chart](#install-service-catalog-using-helm-chart)
+    - [Install Service Catalog CLI](#install-service-catalog-cli)
+    - [Install Open Service Broker for Azure (OSBA) using Helm Chart](#install-open-service-broker-for-azure-osba-using-helm-chart)
+  - [Provision and bind Azure Database for MySQL using OSBA](#provision-and-bind-azure-database-for-mysql-using-osba)
+    - [Provision an instance of the MySQL Service](#provision-an-instance-of-the-mysql-service)
+    - [Bind the instance of the MySQL Service](#bind-the-instance-of-the-mysql-service)
+  - [Deploy Application to AKS cluster (OSBA version)](#deploy-application-to-aks-cluster-osba-version)
+    - [Initialize Database for the Voting App (MySQL)](#initialize-database-for-the-voting-app-mysql)
+    - [Delete the existing Voting app on the cluster (if you have)](#delete-the-existing-voting-app-on-the-cluster-if-you-have)
+    - [Create ConfigMap](#create-configmap)
+    - [Create Deployment](#create-deployment)
+    - [Create Service](#create-service)
+    - [Create ingress Controller](#create-ingress-controller)
+  - [Useful Links](#useful-links)
+
+
 In this module, you will provision and bind Azure Database for MySQL, then configure the voting app to consume Azure Database for MySQL using [Open Service Broker for Azure](https://github.com/Azure/open-service-broker-azure) (OSBA).
 
 ![](../assets/voting-app-arch02-osba.png)

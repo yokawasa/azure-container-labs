@@ -1,5 +1,11 @@
 # AKS101: Create Azure Kubernetes Service (AKS) Cluster
 
+Table of Content
+<!-- TOC -->
+- [AKS101: Create Azure Kubernetes Service (AKS) Cluster](#aks101-create-azure-kubernetes-service-aks-cluster)
+  - [1. Create Resource Group](#1-create-resource-group)
+  - [2. Create AKS Cluster](#2-create-aks-cluster)
+
 ## 1. Create Resource Group
 ```sh
 RESOURCE_GROUP="rg_azconlab"   # Reousrce Group Name 

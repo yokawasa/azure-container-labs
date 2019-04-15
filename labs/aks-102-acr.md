@@ -1,4 +1,15 @@
-# Module AKS102: Azure Container Registry (ACR) and ACR Build
+# AKS102: Azure Container Registry (ACR) and ACR Build
+
+Table of Contents
+<!-- TOC -->
+- [AKS102: Azure Container Registry (ACR) and ACR Build](#aks102-azure-container-registry-acr-and-acr-build)
+  - [Create Azure Container Registry instance](#create-azure-container-registry-instance)
+  - [Build Containers from Dockerfiles using ACR Build and host the images in ACR](#build-containers-from-dockerfiles-using-acr-build-and-host-the-images-in-acr)
+    - [Clone the workshop repo into the cloud shell environment](#clone-the-workshop-repo-into-the-cloud-shell-environment)
+    - [Build azure-vote-front container](#build-azure-vote-front-container)
+    - [Build azure-vote-msyql container](#build-azure-vote-msyql-container)
+    - [Check your repositories in ACR](#check-your-repositories-in-acr)
+  - [Useful Links](#useful-links)
 
 In this module, you will use Azure Container Registry (ACR) to build containers from Dockerfiles and also host your images to run in AKS
 

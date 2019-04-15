@@ -1,4 +1,18 @@
-# Module AKS103: Deploy the Voting App to AKS Cluster
+# AKS103: Deploy the Voting App to AKS Cluster
+
+Table of Content
+<!-- TOC -->
+- [AKS103: Deploy the Voting App to AKS Cluster](#aks103-deploy-the-voting-app-to-aks-cluster)
+  - [Clone the Github repo (only if you haven't done yet)](#clone-the-github-repo-only-if-you-havent-done-yet)
+  - [Review/Edit the YAML Config Files](#reviewedit-the-yaml-config-files)
+  - [Deploy the Voting App to AKS Cluster](#deploy-the-voting-app-to-aks-cluster)
+    - [Create ConfigMap](#create-configmap)
+    - [Create Storage Resource](#create-storage-resource)
+    - [Create Secret Resource](#create-secret-resource)
+      - [[NOTE] How to check secret info in your Secret resource](#note-how-to-check-secret-info-in-your-secret-resource)
+    - [Create Deployment](#create-deployment)
+    - [Create Service](#create-service)
+
 
 In this module, you will deploy the voting app (below) to the AKS cluster that you created in the previous secion - [AKS101: Create Azure Kubernetes Services(AKS) Cluster](aks-101-create-aks-cluster.md). 
 
@@ -239,4 +253,4 @@ echo $EXTERNALIP
 ![](../assets/browse-app.png)
 
 ---
-[Top](../README.md) | [Back](aks-102-acr.md) | [Next](aks-104-ingress-top.md)
+[Top](../README.md) | [Back](aks-102-acr.md) | [Next](aks-104-ingress.md)
