@@ -110,3 +110,4 @@ spec:
       - name: config-map
         configMap:
           name: azure-voting-app-config
+---

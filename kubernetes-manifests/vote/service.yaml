@@ -18,8 +18,8 @@ metadata:
   labels:
     app: azure-voting-app
 spec:
-  type: LoadBalancer
-  # type: ClusterIP
+  # type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 80
   selector:

@@ -11,6 +11,7 @@
       - [[NOTE] How to check secret info in your Secret resource](#note-how-to-check-secret-info-in-your-secret-resource)
     - [Create Deployment](#create-deployment)
     - [Create Service](#create-service)
+    - [Access service in the cluster by port-forward](#access-service-in-the-cluster-by-port-forward)
 
 
 In this module, you will deploy the voting app (below) to the AKS cluster that you created in the previous secion - [AKS101: Create Azure Kubernetes Services(AKS) Cluster](aks-101-create-aks-cluster.md). 
@@ -225,28 +226,42 @@ service "azure-voting-app-back" created
 service "azure-voting-app-front" created
 ```
 
-Get Service info list. Wait until an external IP for `azure-voting-app-front` is assigned in`EXTERNAL-IP` field
+Get service list with `kubectl get servcies | kubectl get svc`:
 
 ```sh
-kubectl get svc -w
+kubectl get svc
 
-NAME                     TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-azure-voting-app-back    ClusterIP      10.0.199.124   <none>        3306/TCP       34s
-azure-voting-app-front   LoadBalancer   10.0.45.202    <pending>     80:32125/TCP   33s
-kubernetes               ClusterIP      10.0.0.1       <none>        443/TCP        11d
-azure-voting-app-front   LoadBalancer   10.0.45.202   40.115.180.143   80:32125/TCP   45s
+NAME                     TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+azure-voting-app-back    ClusterIP   10.0.243.95    <none>        3306/TCP   7m11s
+azure-voting-app-front   ClusterIP   10.0.179.126   <none>        80/TCP     7m11s
+kubernetes               ClusterIP   10.0.0.1       <none>        443/TCP    11d
 ```
-> Option `-w` can watch for changes after listing/getting the requested objects
 
-Access the service with an assigned external IP
-```
-curl 40.115.180.143    << an assigned external IP
+### Access service in the cluster by port-forward
+
+As you can see all services in the cluster doesn't have `EXTERNAL-IP` but `CLUSTER-IP` which mean you can access the service from inside the cluster but not from outside.  
+In this section, you access a service in the cluster from outside using `kubectl port-forward` (for more detail on kubectl port-forward, see [this](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/)).
+
+Open one terminal, and port forward your local port to a Kubernetes service using `kubectl port-forward` like this
+
+> Port forward local 8080 port to azure-voting-app-front service port 80 in Kubernetes cluster
+```sh
+# kubectl port-forward svc/<target-service-name> <local-port>:<target-port>
+kubectl port-forward svc/azure-voting-app-front 8080:80
+
+Forwarding from 127.0.0.1:8080 -> 80
+Forwarding from [::1]:8080 -> 80
 ```
 
 NOTE: an external IP can be obtained by using `-o jsonpath` option like this:
 ```
 EXTERNALIP=$(kubectl get svc azure-voting-app-front -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo $EXTERNALIP
+```
+
+Then, you can access the service by accessing localhost:8080 
+```
+open http://localhost:8080
 ```
 
 ![](../assets/browse-app.png)
