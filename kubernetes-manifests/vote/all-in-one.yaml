@@ -1,0 +1,195 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: azure-voting-app-secret
+  labels:
+    app: azure-voting-app
+type: Opaque
+data:
+  MYSQL_USER: ZGJ1c2Vy
+  MYSQL_PASSWORD: UGFzc3dvcmQxMg==
+  MYSQL_DATABASE: YXp1cmV2b3Rl
+  MYSQL_HOST: YXp1cmUtdm90aW5nLWFwcC1iYWNrCg==
+  MYSQL_ROOT_PASSWORD: UGFzc3dvcmQxMg==
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: azure-voting-app-config
+  labels:
+    app: azure-voting-app
+data:
+  config_file.cfg: |
+    # UI Configurations
+    TITLE = 'Azure Voting App'
+    VOTE1VALUE = 'Beer'
+    VOTE2VALUE = 'Wine'
+    SHOWHOST = 'false'
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azure-disk-standard
+  labels:
+    app: azure-voting-app
+provisioner: kubernetes.io/azure-disk
+parameters:
+  kind: Managed
+  storageaccounttype: Standard_LRS
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: azure-voting-app-pv-claim
+  labels:
+    app: azure-voting-app
+spec:
+  accessModes:
+  - ReadWriteOnce
+  # To create a disk that uses standard storage, 
+  # alternatively you can use storageClassName: default
+  storageClassName: azure-disk-standard
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: azure-voting-app-back
+  labels:
+    app: azure-voting-app
+    component: azure-voting-app-back
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: azure-voting-app
+        component: azure-voting-app-back
+    spec:
+      containers:
+      - name: azure-voting-app-back
+        image: yoichikawasaki/azure-vote-back:1.0.0
+        args: ["--ignore-db-dir=lost+found"]
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: azure-voting-app-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: azure-voting-app-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: azure-voting-app-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: azure-voting-app-secret
+              key: MYSQL_DATABASE
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: azure-voting-app-pv-claim
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: azure-voting-app-front
+  labels:
+    app: azure-voting-app
+    component: azure-voting-app-front
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: azure-voting-app
+        component: azure-voting-app-front
+    spec:
+      containers:
+      - name: azure-voting-app-front
+        image: yoichikawasaki/azure-vote-front:1.0.0
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        imagePullPolicy: Always
+        env:
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: azure-voting-app-secret
+              key: MYSQL_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: azure-voting-app-secret
+              key: MYSQL_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: azure-voting-app-secret
+              key: MYSQL_DATABASE
+        - name: MYSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: azure-voting-app-secret
+              key: MYSQL_HOST
+        - name: FLASK_CONFIG_FILE_PATH
+          value: /etc/config/config_file.cfg
+        volumeMounts:
+        - name: config-map
+          mountPath: /etc/config
+      volumes:
+      - name: config-map
+        configMap:
+          name: azure-voting-app-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-voting-app-back
+  labels:
+    app: azure-voting-app
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: azure-voting-app
+    component: azure-voting-app-back
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-voting-app-front
+  labels:
+    app: azure-voting-app
+spec:
+  type: LoadBalancer
+  # type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: azure-voting-app
+    component: azure-voting-app-front
