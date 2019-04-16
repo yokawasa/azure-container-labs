@@ -4,7 +4,7 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 ---
 ## Kubernetes (AKS) Labs
 - 100 [Setup Lab environment](labs/aks-100-setup-env.md)
-- 101  [Create Azure Kubernetes Services(AKS) Cluster](labs/aks-101-create-aks-cluster.md)
+- 101 [Create Azure Kubernetes Services(AKS) Cluster](labs/aks-101-create-aks-cluster.md)
 - 102 [Azure Container Resgistry (ACR) and ACR Build](labs/aks-102-acr.md)
 - 103 [Deploy application to AKS cluster](labs/aks-103-deploy-app.md)
 - 104 [Ingress -  HTTP application routin](labs/aks-104-ingress.md)
@@ -15,10 +15,11 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 - 109 CI with Azure DevOps
 - 201 [Open Service Broker Azure (OSBA)](labs/aks-201-osba.md)
 - 202 [Service Mesh using Istio](labs/aks-202-istio-top.md)
-- 203 Autoscale on AKS (HPA + CA)
-- 204 Application Gateway ingress controller 
+- 203 [Autoscale on AKS (HPA + CA)](labs/aks-203-autoscale.md)
+- 204 [Application Gateway ingress controller](labs/aks-204-app-gateway-ingress.md) 
 - 205 Azure AD integration AKS
 - 206 GPU-enabled node
+- 206 Virutal Node
 
 ### Helper Contents
 - [kubectl for managing k8s](labs/helper-k8s-kubectl.md)

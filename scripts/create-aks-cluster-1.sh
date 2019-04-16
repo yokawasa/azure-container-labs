@@ -1,6 +1,9 @@
 #!/bin/bash
 set -x -e
 
+################################################################
+# Parameters
+################################################################
 RESOURCE_GROUP="<Reousrce Group Name>"
 CLUSTER_NAME="<AKS Cluster Name>"
 REGION="<Region>"
@@ -15,6 +18,10 @@ KUBE_VERSION="Kubernetes Version"
 ## Cluster Parameters
 #NODE_COUNT=2
 #KUBE_VERSION=1.11.1
+
+################################################################
+# Script Start 
+################################################################
 
 echo "Regist relevant providers..."
 az provider register -n Microsoft.Network

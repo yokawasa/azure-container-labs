@@ -1,6 +1,9 @@
 #!/bin/bash
 set -x -e
 
+################################################################
+# Parameters
+################################################################
 RESOURCE_GROUP="<Reousrce Group Name>"
 CLUSTER_NAME="<AKS Cluster Name>"
 REGION="<Region>"
@@ -8,10 +11,11 @@ REGION="<Region>"
 SP_CLIENT_ID="<Service Principal Client ID>"
 SP_CLIENT_SECRET="<Service Principal Secret>"
 # Cluster Parameters
-NODE_COUNT="<Node#>"
-VM_SIZE="<VM Size Name for Worker Node>"
 SSH_KEY="<SSH Public Key Path>"
 
+################################################################
+# Script Start
+################################################################
 echo "Create Resource Group"
 az group create --name $RESOURCE_GROUP --location $REGION
 
@@ -27,14 +31,11 @@ az aks create \
   --resource-group $RESOURCE_GROUP \
   --name $CLUSTER_NAME \
   --kubernetes-version 1.12.6 \
-  --node-count $NODE_COUNT \
+  --node-count 1 \
   --service-principal $SP_CLIENT_ID \
   --client-secret $SP_CLIENT_SECRET \
   --ssh-key-value $SSH_KEY \
-  --enable-vmss \
-  --enable-cluster-autoscaler \
-  --min-count 1 \
-  --max-count 3
+  --enable-vmss
 
 END=`date +%s`
 SS=`expr ${END} - ${START}`

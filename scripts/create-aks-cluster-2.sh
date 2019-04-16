@@ -1,6 +1,9 @@
 #!/bin/bash
 set -x -e
 
+################################################################
+# Parameters
+################################################################
 RESOURCE_GROUP="<Reousrce Group Name>"
 CLUSTER_NAME="<AKS Cluster Name>"
 REGION="<Region>"
@@ -26,6 +29,9 @@ SSH_KEY="SSH Public Key Path"
 #KUBE_VERSION=1.11.1
 # SSH_KEY="~/.ssh/id_rsa.pub"
 
+################################################################
+# Script Start
+################################################################
 echo "Regist relevant providers..."
 az provider register -n Microsoft.Network
 az provider register -n Microsoft.Storage

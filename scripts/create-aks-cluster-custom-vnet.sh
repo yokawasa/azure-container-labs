@@ -1,6 +1,9 @@
 #!/bin/bash
 set -x -e
 
+################################################################
+# Parameters
+################################################################
 RESOURCE_GROUP="<Reousrce Group Name>"
 CLUSTER_NAME="<AKS Cluster Name>"
 REGION="<Region>"
@@ -14,7 +17,9 @@ SUBNET_AKS="<Subname name for AKS>"
 NODE_COUNT="<Node#>"
 SSH_KEY="<SSH Public Key Path>"
 
-
+################################################################
+# Script Start
+################################################################
 LATEST_KUBE_VERSION=$(az aks get-versions --location $REGION --output table  |head -3 | grep "1.*" |awk '{print $1}')
 echo "LATEST_KUBE_VERSION=> $LATEST_KUBE_VERSION"
 KUBE_VERSION=$LATEST_KUBE_VERSION

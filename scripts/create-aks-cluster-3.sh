@@ -1,6 +1,8 @@
 #!/bin/bash
 set -x -e
-
+################################################################
+# Parameters
+################################################################
 RESOURCE_GROUP="<Reousrce Group Name>"
 CLUSTER_NAME="<AKS Cluster Name>"
 REGION="<Region>"
@@ -28,6 +30,9 @@ OMS_WORKSPACE_RESOURCE_ID="/subscriptions/<SubscriptionID>/resourceGroups/<Resou
 # SSH_KEY="~/.ssh/id_rsa.pub"
 # OMS_WORKSPACE_RESOURCE_ID="/subscriptions/87x7c7f9-0c9f-47d1-a856-1305a0cbfd7a/resourceGroups/DefaultResourceGroup-EJP/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-87c7c7f9-0c9f-47d1-a856-1305a0cbfd7a-EJP"
 
+################################################################
+# Script Start
+################################################################
 echo "Regist relevant providers..."
 az provider register -n Microsoft.Network
 az provider register -n Microsoft.Storage
