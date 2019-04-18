@@ -7,6 +7,8 @@ Official AKS FAQ is [here](https://docs.microsoft.com/bs-cyrl-ba/azure/aks/faq)
 <!-- TOC -->
 - [AKS Cheat Sheet](#aks-cheat-sheet)
   - [Azure CLI Commands](#azure-cli-commands)
+    - [AKS](#aks)
+    - [ACR](#acr)
   - [Reference Architecture](#reference-architecture)
   - [AKS Features](#aks-features)
     - [Service Principal](#service-principal)
@@ -25,16 +27,102 @@ Official AKS FAQ is [here](https://docs.microsoft.com/bs-cyrl-ba/azure/aks/faq)
   - [Azure Container Registory (ACR)](#azure-container-registory-acr)
 
 ## Azure CLI Commands
+### AKS
+Reference: [az aks](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest)
+
+- Get k8s available versions
+    ```
+    az aks get-versions --location $REGION --output table
+
+    KubernetesVersion    Upgrades
+    -------------------  ------------------------
+    1.12.7               None available
+    1.12.6               1.12.7
+    1.11.9               1.12.6, 1.12.7
+    1.11.8               1.11.9, 1.12.6, 1.12.7
+    1.10.13              1.11.8, 1.11.9
+    1.10.12              1.10.13, 1.11.8, 1.11.9
+    1.9.11               1.10.12, 1.10.13
+    1.9.10               1.9.11, 1.10.12, 1.10.13
+    ```
+
+- To configure kubectl to connect to your Kubernetes cluster
+    ```
+    az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME
+    ```
+
+- Open k8s dashboard
+    ```
+    az aks browse --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME
+    ```
+
+- Get AKS Cluster info
+    ```
+    az aks show  --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME -o table
+
+    Name      Location    ResourceGroup    KubernetesVersion    ProvisioningState    Fqdn
+    --------  ----------  ---------------  -------------------  -------------------  -----------------------------------------------------------
+    azconlab  japaneast   RG_azconlab      1.12.6               Succeeded            azconlab-rgazconlab-87c7c7-97ac1e80.hcp.japaneast.azmk8s.io
+    ```
+
 - Get Node Resource Group
     ```
     az aks show --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --query nodeResourceGroup -o tsv
     ```
+
+- Scale AKS Cluster nodes
+    ```
+    az aks scale --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP \
+        --node-count $NODE_COUNT
+    ```
+
+- Upgrade AKS Cluster version
+    ```
+    az aks upgrade --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP \
+        --kubernetes-version $KUBERNETS_VERSION
+    ```
+
+- Enable Add-on
+  - Enable Azure Monitor for Containers
+    ```
+    OMS_WORKSPACE_RESOURCE_ID="/subscriptions/87c7c7f9-0c9f-47d1-a856-1305a0cbfd7a/resourceGroups/DefaultResourceGroup-EJP/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-77c7c7f9-0c9f-47d1-a856-1305a0cbfd7a-EJP"
+
+    az aks enable-addons -a monitoring \
+      --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP \
+      --workspace-resource-id $OMS_WORKSPACE_RESOURCE_ID
+    ```
+  - Enable HTTP Application Routing
+    ```
+    az aks enable-addons --addons http_application_routing \
+      --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP
+    ```
+
 - Check egress IP
     ```
     kubectl run -it --rm runtest --image=debian --generator=run-pod/v1
     pod#  apt-get update && apt-get install curl -y
     pod#  curl -s checkip.dyndns.org
     ```
+### ACR
+Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cli-latest)
+
+- Create an Azure Container Registry
+    ```
+    az acr create --resource-group $RESOURCE_GROUP --name $ACR_NAME --sku Basic
+    ```
+
+- Login to ACR 
+    ```
+    az acr login --name $ACR_NAME
+
+    # Alternatively login with docker command
+    ACR_LOGIN_SERVER=$ACR_NAME.azurecr.io
+    docker login $ACR_LKOGIN_SERVER -u $ACR_USER -p $ACR_PASSWORD
+    ```
+
+- 
+
+
 ## Reference Architecture
 ![](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/microservices/_images/aks.png)
 - [Microservices architecture on Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/microservices/aks)
@@ -45,7 +133,7 @@ Official AKS FAQ is [here](https://docs.microsoft.com/bs-cyrl-ba/azure/aks/faq)
 ### Service Principal
 - About Service Principal
   - https://docs.microsoft.com/en-us/azure/aks/kubernetes-service-principal
-- Update Service Principal
+- Update Service Principal in AKS cluster
   - https://docs.microsoft.com/en-us/azure/aks/update-credentials
 
 ### Authn and Authz
