@@ -28,9 +28,13 @@ Now, let us generate a small load on the sample app by using [fortio](https://gi
 docker run istio/fortio load -t 5m -qps 5 http://$GATEWAY_URL/productpage
 ```
 
-Let us find the port Jaeger is exposed on by running the following command:
+Let us forward local port to Jaeger-UI and access to the Jaeger UI by running the following command:
 ```sh
-kubectl -n istio-system get svc tracing
+# One Terminal
+kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686
+
+# Another Terminal
+open http://localhost:16686
 ```
 
 You can click on the link at the top of the page which maps to the right port and it will open Jaeger UI in a new tab.

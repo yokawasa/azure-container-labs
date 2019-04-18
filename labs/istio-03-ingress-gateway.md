@@ -12,12 +12,12 @@ You need to make the application accessible from outside of your Kubernetes clus
 
 First of all, create the ingress gateway for the application:
 ```
-$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 ```
 
 Then, confirm the gateway has been created:
 ```
-$ kubectl get gateway
+kubectl get gateway
 
 NAME               AGE
 bookinfo-gateway   1m
@@ -38,7 +38,7 @@ echo $GATEWAY_URL
 
 Or you can simply get the gateway url from `istio-ingressgateway` service's YAML output (just pick `loadBalancer` igress IP and port of `http2` )
 ```
-$ kubectl get svc istio-ingressgateway  -n istio-system -o yaml
+kubectl get svc istio-ingressgateway  -n istio-system -o yaml
 
 apiVersion: v1
 kind: Service
