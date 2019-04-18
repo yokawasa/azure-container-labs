@@ -18,15 +18,13 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 - 203 [Autoscale on AKS (HPA + CA)](labs/aks-203-autoscale.md)
 - 204 [Application Gateway ingress controller](labs/aks-204-app-gateway-ingress.md) 
 - 205 Azure AD integration AKS
-- 206 GPU-enabled node
 - 206 Virutal Node
 
 ### Helper Contents
-- [kubectl for managing k8s](labs/helper-k8s-kubectl.md)
-- [Azure CLI for managing AKS & ACR](labs/helper-aks-azcli.md)
-- [Helm CLI Commands](labs/helper-helm.md)
-- [Uselful Tools](labs/helper-k8s-useful-tools.md)
+- [AKS Cheat Sheet](labs/helper-aks-cheat-sheet.md)
+- Commands: [kubectl](labs/helper-k8s-kubectl.md) | [Azure CLI](labs/helper-aks-azcli.md) | [helm](labs/helper-helm.md)
 - [Docker Tips](labs/helper-docker-tips.md)
+- [Tools](labs/helper-k8s-tools.md)
 
 ---
 ## Web App for Containers Labs
