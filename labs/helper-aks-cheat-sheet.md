@@ -120,9 +120,6 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
     docker login $ACR_LKOGIN_SERVER -u $ACR_USER -p $ACR_PASSWORD
     ```
 
-- 
-
-
 ## Reference Architecture
 ![](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/microservices/_images/aks.png)
 - [Microservices architecture on Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/microservices/aks)
@@ -255,7 +252,7 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
   - max nodes per cluster: `100`
   - max pods per node setting for AKS
     - Basic networking with Kubenet: `110`
-    - Advanced networking with Azure CNI: `30` - Portal Deploy, `110` - ARM template / Azure CLI deploy
+    - Advanced networking with Azure CNI: `30` ( NOTE: you can change the limit for Azure CLI or Resource Manager template deployments up to `110` )
 - [Region availability](https://docs.microsoft.com/en-us/azure/aks/container-service-quotas#region-availability)
 - [Provisioned Infrastructure](https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits)
 - [Supported k8s versions](https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions)
