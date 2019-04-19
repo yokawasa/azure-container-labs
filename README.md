@@ -18,7 +18,7 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 - 203 [Autoscale on AKS (HPA + CA)](labs/aks-203-autoscale.md)
 - 204 [Application Gateway ingress controller](labs/aks-204-app-gateway-ingress.md) 
 - 205 Azure AD integration AKS
-- 206 Virutal Node
+- 206 [Virutal Node](labs/aks-206-virtual-node.md)
 
 ### Helper Contents
 - [AKS Cheat Sheet](labs/helper-aks-cheat-sheet.md)
