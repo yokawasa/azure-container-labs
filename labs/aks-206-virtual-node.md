@@ -240,8 +240,36 @@ Manually scale the app up to 50 with `kubectl scale` command:
 kubectl scale deploy aci-party-clippy --replicas=50
 ```
 
-Finally, get list of pod status with `kubectl get pod` command. You'll see 50 pods running on the node
+Finally, check pods' status with `kubectl get pod` and `kubectl get deploy` command. You'll see 50 pods running on the node
 
+```
+kubectl get pod
+
+aci-party-clippy-6949f66686-qvct9   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-qx8p2   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-rtn7h   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-sxz6x   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-tk2pj   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-tlnkf   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-tm2sp   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-tqstm   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-wcxx5   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-x7f9f   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-xjkxg   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-z9bb5   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-znp8s   0/1     Pending   0          <invalid>
+aci-party-clippy-6949f66686-ft8nh   0/1     Creating   0          <invalid>
+aci-party-clippy-6949f66686-48kzr   0/1     Creating   0          <invalid>
+aci-party-clippy-6949f66686-9wxdw   0/1     Creating   0          <invalid>
+aci-party-clippy-6949f66686-6t4f7   0/1     Creating   0          <invalid>
+aci-party-clippy-6949f66686-j22ht   0/1     Creating   0          <invalid>
+...
+
+kubectl get deploy
+
+NAME               DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+aci-party-clippy   50        50        50           5           10h
+```
 ## Cleanup Resources
 
 ```sh

@@ -21,6 +21,7 @@ Official AKS FAQ is [here](https://docs.microsoft.com/bs-cyrl-ba/azure/aks/faq)
     - [Ingress](#ingress)
     - [Egress](#egress)
     - [DNS](#dns)
+    - [Autoscale](#autoscale)
     - [GPU nodes](#gpu-nodes)
     - [Quota and Limits for AKS](#quota-and-limits-for-aks)
     - [Troubleshooting](#troubleshooting)
@@ -241,6 +242,12 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
   - [Customize CoreDNS](https://docs.microsoft.com/en-us/azure/aks/coredns-custom)
 - Kubernetes < 1.12.x: `kube-dns` 
   - [Customize kube-dns](https://www.danielstechblog.io/using-custom-dns-server-for-domain-specific-name-resolution-with-azure-kubernetes-service/)
+
+### Autoscale
+
+
+
+
 
 ### GPU nodes
 - https://docs.microsoft.com/en-us/azure/aks/gpu-cluster
