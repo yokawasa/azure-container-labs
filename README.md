@@ -22,7 +22,6 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 
 ### Helper Contents
 - [AKS Cheat Sheet](labs/helper-aks-cheat-sheet.md)
-- Commands: [kubectl](labs/helper-k8s-kubectl.md) | [Azure CLI](labs/helper-aks-azcli.md) | [helm](labs/helper-helm.md)
 - [Docker Tips](labs/helper-docker-tips.md)
 - [Tools](labs/helper-k8s-tools.md)
 

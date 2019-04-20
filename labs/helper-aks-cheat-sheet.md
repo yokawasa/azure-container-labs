@@ -26,14 +26,15 @@ Official AKS FAQ is [here](https://docs.microsoft.com/bs-cyrl-ba/azure/aks/faq)
     - [Quota and Limits for AKS](#quota-and-limits-for-aks)
     - [Troubleshooting](#troubleshooting)
   - [Azure Container Registory (ACR)](#azure-container-registory-acr)
+  - [Useful Links](#useful-links)
 
 ## Azure CLI Commands
 ### AKS
 Reference: [az aks](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest)
 
 - Get k8s available versions
-    ```
-    az aks get-versions --location $REGION --output table
+    ```sh
+    az aks get-versions --location $REGION -o table
 
     KubernetesVersion    Upgrades
     -------------------  ------------------------
@@ -48,17 +49,42 @@ Reference: [az aks](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cl
     ```
 
 - To configure kubectl to connect to your Kubernetes cluster
-    ```
+    ```sh
     az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME
     ```
 
-- Open k8s dashboard
-    ```
+- Open k8s Dashboard
+    ```sh
     az aks browse --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME
     ```
+    ![](../assets/k8s-dashboard.png)
+
+    If you're using RBAC enabled kubernetes cluster, you need to configure Service Account and RoleBinding in order to make Dashbaord work.
+    ```sh
+    # Here is a way to give full privilege (role: cluster-admin) to the Dashboard’s Service Account kubernetes-dashboard
+    $ cat <<EOF | kubectl apply -f -
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    kind: ClusterRoleBinding
+    metadata:
+    name: kubernetes-dashboard
+    labels:
+        k8s-app: kubernetes-dashboard
+    roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: cluster-admin
+    subjects:
+    - kind: ServiceAccount
+    name: kubernetes-dashboard
+    namespace: kube-system
+    EOF
+    ```
+    If you want to configure more granular privilege to the Dashboard's service account instead of giving full privilege(role: cluster-admin), please follow "Option 1: Access to Dashboard with your Service Account" in [this article](https://unofficialism.info/posts/accessing-rbac-enabled-kubernetes-dashboard/). 
+
+    In addition, please see [Kubernetes dashboard with Azure Container Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/kubernetes-dashboard) to know about basic dashboard operations.
 
 - Get AKS Cluster info
-    ```
+    ```sh
     az aks show  --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME -o table
 
     Name      Location    ResourceGroup    KubernetesVersion    ProvisioningState    Fqdn
@@ -67,25 +93,28 @@ Reference: [az aks](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cl
     ```
 
 - Get Node Resource Group
-    ```
+    ```sh
     az aks show --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME --query nodeResourceGroup -o tsv
     ```
 
 - Scale AKS Cluster nodes
-    ```
+    ```sh
     az aks scale --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP \
         --node-count $NODE_COUNT
     ```
 
 - Upgrade AKS Cluster version
-    ```
+    ```sh
     az aks upgrade --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP \
         --kubernetes-version $KUBERNETS_VERSION
+
+    # Check which Kubernetes releases are available for upgrade for your AKS cluster
+    az aks get-upgrades --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP -o table
     ```
 
 - Enable Add-on
   - Enable Azure Monitor for Containers
-    ```
+    ```sh
     OMS_WORKSPACE_RESOURCE_ID="/subscriptions/87c7c7f9-0c9f-47d1-a856-1305a0cbfd7a/resourceGroups/DefaultResourceGroup-EJP/providers/Microsoft.OperationalInsights/workspaces/DefaultWorkspace-77c7c7f9-0c9f-47d1-a856-1305a0cbfd7a-EJP"
 
     az aks enable-addons -a monitoring \
@@ -93,32 +122,63 @@ Reference: [az aks](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cl
       --workspace-resource-id $OMS_WORKSPACE_RESOURCE_ID
     ```
   - Enable HTTP Application Routing
-    ```
+    ```sh
     az aks enable-addons --addons http_application_routing \
       --name $CLUSTER_NAME --resource-group $RESOURCE_GROUP
     ```
 
 - Check egress IP
-    ```
+    ```sh
     kubectl run -it --rm runtest --image=debian --generator=run-pod/v1
-    pod#  apt-get update && apt-get install curl -y
-    pod#  curl -s checkip.dyndns.org
+    pod>  apt-get update && apt-get install curl -y
+    pod>  curl -s checkip.dyndns.org
     ```
+
 ### ACR
 Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cli-latest)
 
 - Create an Azure Container Registry
-    ```
+    ```sh
     az acr create --resource-group $RESOURCE_GROUP --name $ACR_NAME --sku Basic
     ```
+    > SKU: `Basic`, `Standard`, `Premium`, `Classic`
 
-- Login to ACR 
+- Get ACR list
+    ```sh
+    az acr list -o table
     ```
+- Get ACR Detail 
+    ```sh
+    az acr show -n $ACR_NAME -g $RESOURCE_GROUP
+    # Get only ACR ID
+    az acr show -n $ACR_NAME -g $RESOURCE_GROUP --query "id" -o tsv
+    ```
+- Login to ACR 
+    ```sh
     az acr login --name $ACR_NAME
 
     # Alternatively login with docker command
     ACR_LOGIN_SERVER=$ACR_NAME.azurecr.io
     docker login $ACR_LKOGIN_SERVER -u $ACR_USER -p $ACR_PASSWORD
+    ```
+- ACR Task - Build
+    >  You can queues a quick build, providing streamed logs for an Azure Container Registry by using [az acr build](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cli-latest#az-acr-build)
+
+    ```sh
+    az acr build --registry $ACR_NAME --image [CONTAINER_NAME:TAG] [SOURCE_LOCATION]
+
+    ## More usages are:
+    #Queue a local context (folder), pushed to ACR when complete, with streaming logs.
+    az acr build -t sample/hello-world:{{.Run.ID}} -r MyRegistry .
+
+    # Queue a local context, pushed to ACR without streaming logs.
+    az acr build -t sample/hello-world:{{.Run.ID}} -r MyRegistry --no-logs .
+
+    # Queue a local context to validate a build is successful, without pushing to the registry using the --no-push parameter.
+    az acr build -t sample/hello-world:{{.Run.ID}} -r MyRegistry --no-push .
+
+    # Queue a local context to validate a build is successful, without pushing to the registry. Removing the -t parameter defaults to --no-push
+    az acr build -r MyRegistry .
     ```
 
 ## Reference Architecture
@@ -264,9 +324,8 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
 - [Provisioned Infrastructure](https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits)
 - [Supported k8s versions](https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions)
   ```
-  az aks get-versions --location $REGION --output table
+  az aks get-versions --location $REGION -o table
   ```
-
 
 ### Troubleshooting
 - [Official troubleshooting Guide @k8s.io](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
@@ -286,3 +345,7 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
   - http://aka.ms/acr/tag-locking
 -  Helm Chart Repositories
    -  https://docs.microsoft.com/en-us/azure/container-registry/container-registry-helm-repos
+
+## Useful Links
+- [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+- [Helm Cheat Sheet](https://gist.github.com/tuannvm/4e1bcc993f683ee275ed36e67c30ac49)
