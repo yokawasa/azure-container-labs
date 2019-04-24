@@ -153,6 +153,38 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
     # Get only ACR ID
     az acr show -n $ACR_NAME -g $RESOURCE_GROUP --query "id" -o tsv
     ```
+- Show ACR Repositories
+    ```sh
+    # Show list of repositories
+    az acr repository list -n $ACR_NAME -o table
+
+    Result
+    ----------------
+    azure-vote-back
+    azure-vote-front
+    testcontainer
+    food-recognition
+    web-front
+
+    # Show the detail of a repository
+    az acr repository show  -n $ACR_NAME --repository $REPO_NAME -o table
+
+    CreatedTime                   ImageName     LastUpdateTime                ManifestCount    Registry               TagCount
+    ----------------------------  ------------  ----------------------------  ---------------  ---------------------  ----------
+    2019-01-17T05:19:36.6227367Z  captureorder  2019-04-05T04:50:34.8244574Z  5                myazconacr.azurecr.io  5
+
+    # Show list of tags in a repository
+    az acr repository show-tags -n $ACR_NAME --repository $REPO_NAME -o table
+
+    Result
+    --------
+    21
+    32
+    55
+    56
+    59
+
+    ```
 - Login to ACR 
     ```sh
     az acr login --name $ACR_NAME
