@@ -2,7 +2,7 @@
 
 > Unofficial AKS Cheat Sheet
 
-Official AKS FAQ is [here](https://docs.microsoft.com/bs-cyrl-ba/azure/aks/faq)
+Official AKS FAQ is [here](https://docs.microsoft.com/en-us/azure/aks/faq)
 
 <!-- TOC -->
 - [AKS Cheat Sheet](#aks-cheat-sheet)
