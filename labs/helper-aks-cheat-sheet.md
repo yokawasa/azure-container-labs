@@ -368,6 +368,11 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
 
 
 ## Azure Container Registory (ACR)
+- Authentications
+  - [Azure Container Registry roles and permissions](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles)
+  - [Azure Container Registry authentication with service principals](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-auth-service-principal)
+  - [Use an Azure managed identity to authenticate to an Azure container registry](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-authentication-managed-identity)
+  - [Authenticate with Azure Container Registry from Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-auth-aks)
 - VNET & Firewall Rule
   - https://docs.microsoft.com/en-us/azure/container-registry/container-registry-vnet
 - ACR Task - Automate OS and framework patching 
