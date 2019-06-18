@@ -48,6 +48,11 @@ Reference: [az aks](https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cl
     1.9.10               1.9.11, 1.10.12, 1.10.13
     ```
 
+- Get Available VM size list for AKS
+    ```sh
+    az vm list-skus --location $REGION -o table
+    ```
+
 - To configure kubectl to connect to your Kubernetes cluster
     ```sh
     az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME
