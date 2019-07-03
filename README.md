@@ -27,10 +27,8 @@ Azure Container Labs - Kubernetes(AKS), App Service for Container, Service Fabri
 
 ---
 ## Web App for Containers Labs
-- 101 [Setup Azure Database for MySQL](labs/webapp-101-azdb4mysql.md)
-- 102 [Build and push Docker image to Container Registery](labs/webapp-102-acr.md)
-- 103 [Setup Web App and deploy the application to Web App](labs/webapp-103-deploy-app.md)
-
+- [Voting App (Python Flask + MySQL)](labs/webapp-voting-app.md)
+- [Todo list App (Spring Boot + CosmosDB)](labs/webapp-todo-java-app.md) 
 ---
 ## Azure Container Instances (ACI) Labs
 - [Quickstart ACI](labs/aci-quickstart.md)

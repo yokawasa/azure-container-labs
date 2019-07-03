@@ -2,11 +2,20 @@
 
 <!-- TOC -->
 - [AKS206: Virtual Node](#aks206-virtual-node)
+  - [Install aks-preview CLI extension](#Install-aks-preview-cli-extension)
   - [Provision AKS and enable Virtual Node](#provision-aks-and-enable-virtual-node)
   - [Deploy sample app to Virtual Node](#deploy-sample-app-to-virtual-node)
   - [Manually scale out the app (Massive scale)](#manually-scale-out-the-app-massive-scale)
   - [Cleanup Resources](#cleanup-resources)
 
+
+
+## Install aks-preview CLI extension
+
+AKS cluster autoscaler only supported in `virtual machine scale set (VMSS)` with Kubernetes version `1.12.4`. As of June 2019, this is still in preview stage and you need to opt-in to preview features to try this. For this you need to add the aks-preview feature to CLI
+```sh
+az extension add --name aks-preview
+```
 
 ## Provision AKS and enable Virtual Node
 First of all, create AKS cluster ( +Advanced Network plugin enabled ) in Custom VNET with `create-aks-cluster-custom-vnet.sh` script. Before you run the script, add your values to parameter sections:

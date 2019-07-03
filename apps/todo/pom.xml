@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.microsoft.azure</groupId>
+    <artifactId>todo-app-java</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>todo-app-java</name>
+    <description>A Simple Sptring boot TODO list app using AngularJS and Azure CosmosDB Spring boot starter</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.3.RELEASE</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.build.timestamp.format>yyMMddHHmmssSSS</maven.build.timestamp.format>
+
+        <!-- dependency versions -->
+        <java.version>1.8</java.version>
+        <plugin.fmp.version>3.5.30</plugin.fmp.version>
+        <plugin.spotify.version>0.4.11</plugin.spotify.version>
+        <plugin.azure.webapp.version>0.1.3</plugin.azure.webapp.version>
+
+        <!-- configurable properties                                             -->
+        <!-- azure.containerRegistry: the name of your Azure container registry  -->
+        <!-- docker.image.prefix: the URL of your  Azure container registry      -->
+        <azure.app.name>todo-app-${maven.build.timestamp}</azure.app.name>
+        <azure.containerRegistry>${ACR_NAME}</azure.containerRegistry>
+        <docker.image.prefix>${azure.containerRegistry}.azurecr.io</docker.image.prefix>
+
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-spring-boot-bom</artifactId>
+                <version>2.0.6</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-cosmosdb-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--*************************************************-->
+            <!-- Docker plugin for Maven                         -->
+            <!--*************************************************-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${plugin.spotify.version}</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <baseImage>java</baseImage>
+                    <entryPoint>["java", "-jar", "/${project.build.finalName}.jar","--server.port=80"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <registryUrl>https://${docker.image.prefix}</registryUrl>
+                    <!-- the server id should be the one registered in settings.xml -->
+                    <serverId>${azure.containerRegistry}</serverId>
+                </configuration>
+            </plugin>
+
+            <!--*************************************************-->
+            <!-- Azure Web App Plugin for Maven                  -->
+            <!-- for deploying to Azure Web App for Containers   -->
+            <!--*************************************************-->
+            <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-webapp-maven-plugin</artifactId>
+                <version>${plugin.azure.webapp.version}</version>
+                <configuration>
+                    <resourceGroup>${RESOURCE_GROUP}</resourceGroup>
+                    <!-- <appName>${azure.app.name}</appName> -->
+                    <appName>${WEBAPP_NAME}</appName>
+                    <region>${REGION}</region>
+                    <pricingTier>s1</pricingTier>
+                    <containerSettings>
+                        <!-- <imageName>${docker.image.prefix}/${project.artifactId}:latest</imageName> -->
+                        <imageName>${docker.image.prefix}/${project.artifactId}:${project.version}</imageName>
+                        <registryUrl>https://${docker.image.prefix}</registryUrl>
+                        <serverId>${azure.containerRegistry}</serverId>
+                    </containerSettings>
+                    <appSettings>
+                        <property>
+                            <name>COSMOSDB_URI</name>
+                            <value>${COSMOSDB_URI}</value>
+                        </property>
+                        <property>
+                            <name>COSMOSDB_KEY</name>
+                            <value>${COSMOSDB_KEY}</value>
+                        </property>
+                        <property>
+                            <name>COSMOSDB_DBNAME</name>
+                            <value>${COSMOSDB_DBNAME}</value>
+                        </property>
+                    </appSettings>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <configLocation>${project.basedir}/checkstyle.xml</configLocation>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <failOnViolation>true</failOnViolation>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                            <resourceIncludes>**/*</resourceIncludes>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <inherited>true</inherited>
+            </plugin>
+        </plugins>
+    </build>
+</project>

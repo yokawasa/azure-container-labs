@@ -1,0 +1,42 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <localRepository/>
+  <interactiveMode/>
+  <offline/>
+  <pluginGroups/>
+  <servers>
+    <!-- Your Azure Container Registry access settings  -->
+    <!-- id: The name of Azure container registry       -->
+    <!-- username: user name of your ACR                -->
+    <!-- password: password of your ACR                 -->
+    <server>
+      <id>yoichikaacr001</id>
+      <username>yoichikaacr001</username>
+      <password>rZjZMzOLKg2fTzQg3=************</password>
+      <configuration>
+        <email>foo@foo.bar</email>
+      </configuration>
+    </server>
+    <!-- Your Azure service principal settings          -->
+    <!-- id: A unique name for your security setting    -->
+    <!--     for deploying your app to Azure web app    -->
+    <!-- client:	the appId of your service principal   -->
+    <!-- tenant:	the tenant of your service principal  -->
+    <!-- key:	the password of your service principal    -->
+    <server>
+      <id>azure-auth</id>
+      <configuration>
+        <client>********-a4c8-4490-9a09-7dd3bab43520</client>
+        <tenant>********-86fs-41af-91ab-2d7cd011db47</tenant>
+        <key>********-d882-4b8f-9218-191dc8935fca</key>
+        <environment>AZURE</environment>
+      </configuration>
+    </server>
+  </servers>
+  <mirrors/>
+  <proxies/>
+  <profiles/>
+  <activeProfiles/>
+</settings>
