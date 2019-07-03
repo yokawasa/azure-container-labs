@@ -1,10 +1,10 @@
-# Web App for Containers Labs: Todo list App (Spring Boot + CosmosDB)
+# Web App for Containers Labs: Spring Boot app + CosmosDB
 
 # Todo App (SprintBoot)
 
 <!-- TOC -->
 
-- [Web App for Containers Labs: Todo list App (Spring Boot + CosmosDB)](#web-app-for-containers-labs-todo-list-app-spring-boot--cosmosdb)
+- [Web App for Containers Labs: Spring Boot app + CosmosDB](#web-app-for-containers-labs-spring-boot-app--cosmosdb)
 - [Todo App (SprintBoot)](#todo-app-sprintboot)
     - [1. Preps](#1-preps)
         - [Azure Cloud Shell](#azure-cloud-shell)
@@ -21,13 +21,13 @@
         - [settings.xml - Maven user setting file](#settingsxml---maven-user-setting-file)
     - [4. Build package and run locally](#4-build-package-and-run-locally)
         - [Build package and run locally using mvn](#build-package-and-run-locally-using-mvn)
-        - [(Optional) Build container image and run locally using docker](#optional-build-container-image-and-run-locally-using-docker)
+        - [[Alternative] Build container image and run locally using docker](#alternative-build-container-image-and-run-locally-using-docker)
     - [5. Push the container image to ACR](#5-push-the-container-image-to-acr)
         - [Push the image to ACR using mvn](#push-the-image-to-acr-using-mvn)
-        - [(Optional) Push the image to ACR using docker command](#optional-push-the-image-to-acr-using-docker-command)
+        - [[Alternative] Push the image to ACR using docker command](#alternative-push-the-image-to-acr-using-docker-command)
     - [6. Deploy the App to Web App for Containers](#6-deploy-the-app-to-web-app-for-containers)
         - [Deploy the app to Azure using mvn](#deploy-the-app-to-azure-using-mvn)
-        - [(Optional) Deploy the app to Azure using Azure CLI command](#optional-deploy-the-app-to-azure-using-azure-cli-command)
+        - [[Alternative] Deploy the app to Azure using Azure CLI command](#alternative-deploy-the-app-to-azure-using-azure-cli-command)
     - [7. Continuous Deployment](#7-continuous-deployment)
         - [Enable built-in CD feature for custom Docker images](#enable-built-in-cd-feature-for-custom-docker-images)
         - [CD for custom Docker images using CD tools](#cd-for-custom-docker-images-using-cd-tools)
@@ -363,9 +363,9 @@ Finally, open http://localhost:8080, you'll be able to see the web pages to show
 open http://localhost:8080
 ```
 
-### (Optional) Build container image and run locally using docker
+### [Alternative] Build container image and run locally using docker
 
-Suppose that you've already build the package using mvn, build a container image for the project and run locally using docker. 
+As an alternative way for running the app locally, you can run it as a container app with docker. Suppose you've already build the package using mvn, build a container image for the project and run locally using docker like this: 
 
 Here is an example docker command:
 ```bash
@@ -409,7 +409,9 @@ az acr repository list -n $ACR_NAME -o table
 az acr repository show-tags -n $ACR_NAME --repository $REPO_NAME -o table
 ```
 
-### (Optional) Push the image to ACR using docker command
+### [Alternative] Push the image to ACR using docker command
+
+As an alternative way for pushiing the image to ACR, you can do with docker command like this:
 
 ```bash
 IMAGE_TAG=1.0-SNAPSHOT
@@ -443,9 +445,9 @@ If a target web app doesn't exist, the plugin create a new web app with the foll
 [INFO] Successfully deployed Web App at https://todo-app-190702110612612.azurewebsites.net
 ```
 
-### (Optional) Deploy the app to Azure using Azure CLI command
+### [Alternative] Deploy the app to Azure using Azure CLI command
 
-Optionally you can deploy the app to Azure directly using Azure CLI command like this:
+As an alternative way for the deployment, you can deploy the app to Azure directly using Azure CLI command like this:
 
 ```bash
 # Create a web app
@@ -537,8 +539,6 @@ az appservice plan update --number-of-workers 2 \
 - [Integrate your app with an Azure Virtual Network](https://docs.microsoft.com/en-us/azure/app-service/web-sites-integrate-with-vnet)
 
 ## LINKS
-- https://github.com/microsoft/todo-app-java-on-azure
-- https://github.com/Microsoft/azure-spring-boot
 - [Azure CLI Commands samples for Azure App Services](https://docs.microsoft.com/en-us/azure/app-service/samples-cli)
 - [Azure CLI Commands for Managing Web App for Containers](https://docs.microsoft.com/en-us/azure/app-service/containers/app-service-linux-cli)
 - [Azure CLI Commands for Managing Azure Container Registry](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cli-latest)
@@ -547,5 +547,4 @@ az appservice plan update --number-of-workers 2 \
 - [azure-maven-plugin](https://github.com/microsoft/azure-maven-plugins)
 - https://github.com/microsoft/spring-data-cosmosdb
 - [How to use the Spring Boot Starter with the Azure Cosmos DB SQL API](https://docs.microsoft.com/en-us/java/azure/spring-framework/configure-spring-boot-starter-java-app-with-cosmos-db)
-- [Tutorial: Build a Java web app using Spring and Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/app-service/containers/tutorial-java-spring-cosmosdb)
 - [java-jdk-docker-images](https://docs.microsoft.com/en-us/java/azure/jdk/java-jdk-docker-images)
