@@ -4,29 +4,35 @@
 
 Official AKS FAQ is [here](https://docs.microsoft.com/en-us/azure/aks/faq)
 
+
 <!-- TOC -->
+
 - [AKS Cheat Sheet](#aks-cheat-sheet)
-  - [Azure CLI Commands](#azure-cli-commands)
-    - [AKS](#aks)
-    - [ACR](#acr)
-  - [Reference Architecture](#reference-architecture)
-  - [AKS Features](#aks-features)
-    - [Service Principal](#service-principal)
-    - [Authn and Authz](#authn-and-authz)
-    - [Cluster Security](#cluster-security)
-    - [Data Volume](#data-volume)
-    - [Network Plugin](#network-plugin)
-    - [Network Policiy](#network-policiy)
-    - [Load Balancer](#load-balancer)
-    - [Ingress](#ingress)
-    - [Egress](#egress)
-    - [DNS](#dns)
-    - [Autoscale](#autoscale)
-    - [GPU nodes](#gpu-nodes)
-    - [Quota and Limits for AKS](#quota-and-limits-for-aks)
-    - [Troubleshooting](#troubleshooting)
-  - [Azure Container Registory (ACR)](#azure-container-registory-acr)
-  - [Useful Links](#useful-links)
+    - [Azure CLI Commands](#azure-cli-commands)
+        - [AKS](#aks)
+        - [ACR](#acr)
+    - [Reference Architecture](#reference-architecture)
+    - [AKS Features](#aks-features)
+        - [Service Principal](#service-principal)
+        - [Authn and Authz](#authn-and-authz)
+        - [Cluster Security](#cluster-security)
+        - [Data Volume](#data-volume)
+        - [Network Plugin](#network-plugin)
+        - [Network Policiy](#network-policiy)
+        - [Load Balancer](#load-balancer)
+        - [Ingress](#ingress)
+        - [Egress](#egress)
+        - [DNS](#dns)
+        - [Scaling Options](#scaling-options)
+        - [GPU nodes](#gpu-nodes)
+        - [Quota and Limits for AKS](#quota-and-limits-for-aks)
+        - [BCDR and Backup](#bcdr-and-backup)
+        - [Troubleshooting](#troubleshooting)
+        - [SLA](#sla)
+    - [Azure Container Registory (ACR)](#azure-container-registory-acr)
+    - [Useful Links](#useful-links)
+
+<!-- /TOC -->
 
 ## Azure CLI Commands
 ### AKS
@@ -261,9 +267,20 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
   - [KeyVault with FlexVol@Github page](https://github.com/Azure/kubernetes-keyvault-flexvol)
 
 ### Data Volume
-- Data Volume Options
-  - Azure Disk ([Dynamic](https://docs.microsoft.com/en-us/azure/aks/azure-disks-dynamic-pv) / [Static](https://docs.microsoft.com/en-us/azure/aks/azure-disk-volume))
-  - Azure Files ([Dynamic](https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv) / [Static](https://docs.microsoft.com/en-us/azure/aks/azure-files-volume))
+- Data Volume Options (Azure Managed)
+  - `Azure Disk` ([Dynamic](https://docs.microsoft.com/en-us/azure/aks/azure-disks-dynamic-pv) / [Static](https://docs.microsoft.com/en-us/azure/aks/azure-disk-volume)): can be used to create a Kubernetes DataDisk resource
+    - Disks can use (1) Azure Premium storage (2) Azure Standard storage
+    - Read/write many: No (only available to a single node)
+  - `Azure Files` ([Dynamic](https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv) / [Static](https://docs.microsoft.com/en-us/azure/aks/azure-files-volume)): can be used to mount an SMB 3.0 share backed by an Azure Storage account to pods
+    - Files can use (1) Azure Standard storage and (2) Azure Premium storage ( NOTE: Azure Files support premium storage in AKS clusters that run Kubernetes 1.13 or higher)
+    - Read/write many: Yes
+  - Other Key points
+    - Both support `Windows Server container`
+    - Both use `Azure Storage Service Encryption (SSE)` by default that encrypts data at rest. Disks cannot currently be encrypted using Azure Disk Encryption at the AKS node level.
+    - Performance benchmark: see [this](https://github.com/Azure/AKS/issues/223)
+- Other data volume options
+  - [Azure Netapp Files](https://azure.microsoft.com/en-us/services/netapp/): Managed NFS service on Azure (see [Setup manual](https://github.com/andyzhangx/demo/tree/master/linux/nfs))
+- [Best practices: Storage and Backup](https://docs.microsoft.com/ja-jp/azure/aks/operator-best-practices-storage) 
 
 ### Network Plugin 
 - [kubenet](https://docs.microsoft.com/en-us/azure/aks/configure-kubenet) (default policy)
@@ -340,11 +357,27 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
 - Kubernetes < 1.12.x: `kube-dns` 
   - [Customize kube-dns](https://www.danielstechblog.io/using-custom-dns-server-for-domain-specific-name-resolution-with-azure-kubernetes-service/)
 
-### Autoscale
-
-
-
-
+### Scaling Options
+- Manually scale Pods
+    ```bash
+    kubectl scale --replicas=$NUM deployment/$DEPLOY_NAME
+    ```
+- Manually scale AKS nodes
+    ```bash
+    az aks scale --resource-group $RESOURCE_GROUP --name $CLUSTER _NAME --node-count $NUM
+    ```
+- Autoscale Pods (see [kubectl autoscale](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#autoscale))
+    ```bash
+    # If CPU utilization exceeds 50%, the autoscaler increases the pods up to a maximum of 10 instances. A minimum of 3 instances is then defined for the deployment
+    kubectl autoscale deployment $DEPLOY_NAME --cpu-percent=50 --min=3 --max=10
+    # To see the status of the autoscaler
+    kubectl get hpa
+    ```
+- Autoscale Cluster (Nodes)
+    - Configure [AKS Cluster Autoscaler (preview)](https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler)
+- Scale across AKS and ACI using Virtual Node
+    - [Create Virtual Node using Azure CLI](https://docs.microsoft.com/en-us/azure/aks/virtual-nodes-cli)
+    - [Virtual node Autoscale Demo](https://azure.microsoft.com/en-gb/resources/samples/virtual-node-autoscale/) 
 
 ### GPU nodes
 - https://docs.microsoft.com/en-us/azure/aks/gpu-cluster
@@ -364,6 +397,12 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
   az aks get-versions --location $REGION -o table
   ```
 
+### BCDR and Backup
+- [Business continuity and Disaster recovery in AKS](https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-multi-region)
+- Backup
+    - [Azure Managed Storage (Azure Disk / Files)](https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-storage#secure-and-back-up-your-data) 
+    - k8s apps and Persistent volumes: [Velero](https://github.com/heptio/velero)(formerly Heptio Ark)
+
 ### Troubleshooting
 - [Official troubleshooting Guide @k8s.io](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
 - https://docs.microsoft.com/en-us/azure/aks/troubleshooting
@@ -371,7 +410,10 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
 - https://docs.microsoft.com/en-us/azure/aks/kube-advisor-tool
 - [SSH login to k8s nodes](https://github.com/yokawasa/kubectl-plugin-ssh-jump)
 
-
+### SLA
+- `API Server`: Because AKS is free, no cost is available to reimburse, so AKS has no formal SLA. However, AKS seeks to maintain availability of `at least 99.5 percent` for the Kubernetes API server ( From [SLA for AKS](https://azure.microsoft.com/en-au/support/legal/sla/kubernetes-service/) )
+- `Agent nodes (VMs)`: See [Virtual Machines SLA ](https://azure.microsoft.com/en-us/support/legal/sla/virtual-machines)
+- `Azure Storage` (in case you use it for data volumes): See [SLA for Storage Account](https://azure.microsoft.com/en-in/support/legal/sla/storage)
 ## Azure Container Registory (ACR)
 - Authentications
   - [Azure Container Registry roles and permissions](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles)
@@ -391,3 +433,4 @@ Reference: [az acr](https://docs.microsoft.com/en-us/cli/azure/acr?view=azure-cl
 ## Useful Links
 - [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [Helm Cheat Sheet](https://gist.github.com/tuannvm/4e1bcc993f683ee275ed36e67c30ac49)
+- [AKS Best Practices](https://docs.microsoft.com/ja-jp/azure/aks/best-practices)
