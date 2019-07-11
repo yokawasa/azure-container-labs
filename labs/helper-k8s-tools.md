@@ -1,12 +1,17 @@
 # Kubernetes Userful Tools
 
+
 <!-- TOC -->
+
 - [Kubernetes Userful Tools](#kubernetes-userful-tools)
-  - [kubectx](#kubectx)
-  - [stern](#stern)
-  - [kubefwd](#kubefwd)
-  - [kubespy](#kubespy)
-  - [hadolint](#hadolint)
+    - [kubectx](#kubectx)
+    - [stern](#stern)
+    - [kubefwd](#kubefwd)
+    - [kubespy](#kubespy)
+    - [kured](#kured)
+    - [hadolint](#hadolint)
+
+<!-- /TOC -->
 
 ## kubectx
 [kubectx](https://github.com/ahmetb/kubectx) is a commandline tool that allow you to switch between clusters and namespaces in kubectl easily & smoothly
@@ -117,6 +122,19 @@ Flags:
 
 Use "kubespy [command] --help" for more information about a command.
 ```
+
+## kured
+[kured](https://github.com/weaveworks/kured) is a Kubernetes daemonset that performs safe automatic node reboots (ensnsuring only one node reboots at a time) when the need to do so is indicated by the package management system of the underlying OS.
+
+```bash
+# Installation
+kubectl apply -f https://github.com/weaveworks/kured/releases/download/1.2.0/kured-1.2.0-dockerhub.yaml
+
+# Testing
+kubectl ssh-jump AKSNODE-VM-SERVER
+$ sudo touch /var/run/reboot-required
+```
+Finally see if kured reboot the node server
 
 ## hadolint
 [hadolint](https://github.com/hadolint/hadolint) is a smarter Dockerfile linter that helps you build best practice Docker images.
